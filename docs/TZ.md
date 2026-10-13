@@ -39,10 +39,10 @@
 | 1 | **Hero** `#top` | 1 | DROP | портрет + «Восход» |
 | 1a | Name-strip | 3 (часть) | — | 8 имен Top 100 DJs полосой (REF-3) |
 | — | Showreel | — | DROP | **V1** (desktop) / **V2** (mobile) |
-| 2 | **Residencies** `#residencies` | 2 | STATE | **Glass Folder Cards** + Bar-Built Digits; **V3** в папке Space Plus |
+| 2 | **Residencies** `#residencies` | 2 | STATE | **Glass Folder Cards** + CountUp (ранги); **V3** в папке Space Plus |
 | — | Club night | — | DROP | **V4** + **V5** (сторис) |
 | 3 | **Play together** `#together` | 3, 4, 5 | LIST | **Polyrhythm Orbit List** (3 орбиты) |
-| 4 | **Progress** `#progress` | 6, 7 | STATE | **Gradient Tracing** (таймлайн), Bar-Built Digits (счетчики) |
+| 4 | **Progress** `#progress` | 6, 7 | STATE | **Gradient Tracing** (таймлайн), CountUp (счетчики) |
 | 5 | **Venues** `#venues` | 8 | LIST | фильтр + FLIP |
 | 6 | **Gallery & posters** `#gallery` | 9 | STATE | **Tilted Grid Hero** (заглушки) + Arc-fan (10 афиш) |
 | 7 | **October tour** `#tour` | 9 | LIST | табло + **Gradient Tracing** (маршрут) |
@@ -83,7 +83,7 @@ Mobile: портрет занимает верхние 65 %, SUNRISE в одну
 
 ### 2 · Residencies (слайд 2)
 **Контент:** Republic 90 · Bootshaus 7 · Space Plus 43 (роли и города из CONTENT.md), подпись «DJ Mag Top 100 Clubs».
-**Раскладка:** заголовок `residencies` слева; справа три **Glass Folder Cards** (tone dark, обложка «ember»), подпись папки = название клуба, meta = город. Под каждой папкой **Bar-Built Digits** ранг (`#90`, `#7`, `#43`) цифрами из вертикальных баров `--sun-500 → --dawn-400`.
+**Раскладка:** заголовок `residencies` слева; справа три **Glass Folder Cards** (tone dark, обложка «ember»), подпись папки = название клуба, meta = город. Под каждой папкой ранг (`#90`, `#7`, `#43`) обычным Outfit 600 `--t-giant`, белым со свечением `--sun-400`, **CountUp** (счет от 100 вниз к рангу, blur 12 → 0, ~1.2 с).
 **Поведение:** папки «собираются» при скролле (appearDelay 0 / 140 / 280); hover — стекло наклоняется к курсору; клик — папка открывается и веером выдает «файлы»: роль, город, строку «#N club in the world», а у Space Plus еще и видео **V3** `v3-spaceplus-loop.mp4` (Media-frame 9:16). Повторный клик или Esc — закрыть. Клавиатура: Tab по папкам, Enter открывает.
 Mobile: папки в колонку, открытие раскрывает содержимое под папкой.
 
@@ -98,7 +98,7 @@ Mobile: орбиты превращаются в 3 marquee-строки (по г
 
 ### 4 · Progress (слайды 6, 7)
 **Заголовок** `// progress`, 7 вех + «120 cities around the world» (CONTENT.md).
-**Раскладка:** горизонтальный pin-скролл (desktop). Линия таймлайна = **Gradient Tracing** (градиент бежит по линии), маркер-солнце едет по линии вместе со скроллом. Каждая веха: год Outfit 600 `--t-display`, событие `--t-h3`, число людей (35,000 / 20,000) через Bar-Built Digits. Вехи 2022 (Qatar) на фоне кубка из слайда 7 (`source/promokit/slide-07.jpg`, пока исходника нет — затемненный кроп, затем заменить).
+**Раскладка:** горизонтальный pin-скролл (desktop). Линия таймлайна = **Gradient Tracing** (градиент бежит по линии), маркер-солнце едет по линии вместе со скроллом. Каждая веха: год Outfit 600 `--t-display`, событие `--t-h3`, число людей (35,000 / 20,000) через CountUp (Outfit 600, `--dawn-400`, счет от 0 с blur 12 → 0). Вехи 2022 (Qatar) на фоне кубка из слайда 7 (`source/promokit/slide-07.jpg`, пока исходника нет — затемненный кроп, затем заменить).
 **Финал:** «120» (`--t-giant`, Fact-column-стиль REF-4, цвет `--dawn-400`) + «cities around the world» + строка 19 стран.
 Mobile: вертикальный таймлайн без pin.
 
@@ -171,7 +171,7 @@ Nav-пилюля появляется после hero: мини-солнце (�
 Структура:
 ```
 app/        layout.tsx, page.tsx, globals.css (токены), fonts/
-components/ ui/ (Tilted Grid Hero и Velvet Haze из 21st.dev, shadcn) · sections/ Hero, NameStrip, Showreel, Residencies, ClubNight, Together, Progress, Venues, Gallery, Tour, Contact, Footer, Nav · shared/ SunMark, SunCTA, SunPill, VideoPlayer, MediaFrame, BarDigits, Orbits, ArcFan
+components/ ui/ (Tilted Grid Hero и Velvet Haze из 21st.dev, shadcn) · sections/ Hero, NameStrip, Showreel, Residencies, ClubNight, Together, Progress, Venues, Gallery, Tour, Contact, Footer, Nav · shared/ SunMark, SunCTA, SunPill, VideoPlayer, MediaFrame, CountUp, Orbits, ArcFan
 data/       residencies.ts, artists.ts, progress.ts, venues.ts, gallery.ts, posters.ts, tour.ts, contacts.ts
 lib/        motion.ts (GSAP + Lenis + reduced-motion guard), video.ts (IO-автоплей)
 public/     brand/ video/ gallery/ posters/ PromoKit-SunRise.pdf

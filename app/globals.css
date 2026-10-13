@@ -199,6 +199,11 @@
     outline-offset: 3px;
   }
 
+  /* on the orange portrait the dawn ring disappears: white there */
+  .hero-frame :focus-visible {
+    outline-color: var(--white);
+  }
+
   a {
     text-decoration: underline;
     text-decoration-thickness: 1px;

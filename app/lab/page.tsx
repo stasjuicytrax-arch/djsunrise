@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { BarDigits } from "@/components/shared/BarDigits";
+import { CountUp } from "@/components/shared/CountUp";
 import { GlassFolderCard } from "@/components/shared/GlassFolderCard";
 import { Orbits } from "@/components/shared/Orbits";
 import { TracingLine } from "@/components/shared/TracingLine";
@@ -35,7 +35,7 @@ export default function Lab() {
                 <span key="b">{`#${r.rank} club in the world`}</span>,
               ]}
             >
-              <BarDigits value={`#${r.rank}`} className="text-[88px]" delay={i * 0.14} />
+              <CountUp value={r.rank} from={100} prefix="#" tone="rank" className="text-giant" delay={i * 0.14} />
             </GlassFolderCard>
           ))}
         </div>
@@ -44,8 +44,8 @@ export default function Lab() {
       <section className="px-[var(--page-x)]">
         <h2 className="text-display font-semibold">counters</h2>
         <div className="mt-12 flex flex-wrap items-end gap-12">
-          <BarDigits value="35,000" className="text-[96px]" />
-          <BarDigits value="120" className="text-[160px]" />
+          <CountUp value={35000} className="text-display" />
+          <CountUp value={120} className="text-giant" />
         </div>
       </section>
 
