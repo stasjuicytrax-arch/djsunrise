@@ -9,7 +9,7 @@ type Props = {
   x1?: number;
   x2?: number;
   /** Optional city dots drawn on top, in viewBox coordinates. */
-  points?: { x: number; y: number; label?: string }[];
+  points?: { x: number; y: number; label?: string; below?: boolean }[];
   /** Seconds for the bright run to cross the line. */
   duration?: number;
   strokeWidth?: number;
@@ -79,7 +79,7 @@ export function TracingLine({
           {p.label ? (
             <text
               x={p.x}
-              y={p.y - strokeWidth * 5}
+              y={p.below ? p.y + strokeWidth * 8 : p.y - strokeWidth * 5}
               textAnchor="middle"
               fill="var(--fog-400)"
               style={{ font: "500 13px var(--font-sans)", letterSpacing: "0.06em", textTransform: "uppercase" }}

@@ -4,17 +4,8 @@ import * as React from "react";
 import { List, X } from "@phosphor-icons/react";
 import { SunMark } from "@/components/shared/SunMark";
 import { contacts } from "@/data/contacts";
+import { NAV_LINKS } from "@/data/nav";
 import { cn } from "@/lib/utils";
-
-export const NAV_LINKS = [
-  { id: "residencies", label: "Residencies" },
-  { id: "together", label: "Together" },
-  { id: "progress", label: "Progress" },
-  { id: "venues", label: "Venues" },
-  { id: "gallery", label: "Gallery" },
-  { id: "tour", label: "Tour" },
-  { id: "contact", label: "Contact" },
-] as const;
 
 /**
  * Top bar: sun mark on the left, pill with anchors and "Book" on the right.

@@ -58,13 +58,10 @@
 
 /* Hover: everything else dims, motion holds */
 .orbits:has(.orbits-name:hover) .orbits-ring,
-.orbits:has(.orbits-name:hover) .orbits-name,
-.orbits:has(.orbits-name:focus-visible) .orbits-ring,
-.orbits:has(.orbits-name:focus-visible) .orbits-name {
+.orbits:has(.orbits-name:hover) .orbits-name {
   animation-play-state: paused;
 }
-.orbits:has(.orbits-name:hover) .orbits-name:not(:hover),
-.orbits:has(.orbits-name:focus-visible) .orbits-name:not(:focus-visible) {
+.orbits:has(.orbits-name:hover) .orbits-name:not(:hover) {
   opacity: 0.28;
 }
 
