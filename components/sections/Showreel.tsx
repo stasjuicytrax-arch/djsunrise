@@ -27,7 +27,10 @@ export function Showreel() {
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
-        style={{ background: "var(--g-vignette)" }}
+        style={{
+          background:
+            "linear-gradient(0deg, rgba(10,9,9,0.78) 0%, rgba(10,9,9,0.35) 30%, transparent 55%), var(--g-vignette)",
+        }}
       />
 
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 px-[var(--page-x)] pb-8 md:pb-12">
@@ -54,12 +57,12 @@ export function Showreel() {
             poster="/video/posters/after-movie-grozzman-9x16.jpg"
             vertical
             title="Showreel, full version"
-            triggerClassName="group inline-flex shrink-0 items-center gap-3 rounded-full bg-sun-500 py-2 pl-2 pr-5 text-body font-semibold text-white transition-colors duration-[var(--d-base)] hover:bg-dawn-400"
+            triggerClassName="group inline-flex shrink-0 items-center gap-3 rounded-full bg-sun-500 py-2 pl-2 pr-5 text-meta font-semibold uppercase tracking-[0.06em] text-white transition-colors duration-[var(--d-base)] hover:bg-dawn-400"
           >
             <span className="grid size-12 place-items-center rounded-full bg-white text-sun-500">
               <SoundIcon />
             </span>
-            Sound
+            Play with sound
           </FullPlayer>
         </span>
       </div>

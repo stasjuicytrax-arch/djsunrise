@@ -30,11 +30,6 @@ export function FullPlayer({ src, poster, children, vertical, triggerClassName, 
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
-      if (e.key === "Tab") {
-        // one focusable thing besides the video controls: keep focus inside
-        e.preventDefault();
-        closeBtn.current?.focus();
-      }
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -66,6 +61,10 @@ export function FullPlayer({ src, poster, children, vertical, triggerClassName, 
           aria-label={title}
           className="fixed inset-0 z-[70] grid place-items-center bg-ink-950/95 p-4 backdrop-blur-[8px]"
           onClick={(e) => e.target === e.currentTarget && setOpen(false)}
+          onBlur={(e) => {
+            // keep focus inside the dialog; the native video controls stay reachable
+            if (!e.currentTarget.contains(e.relatedTarget as Node | null)) closeBtn.current?.focus();
+          }}
         >
           <button
             ref={closeBtn}
@@ -80,6 +79,7 @@ export function FullPlayer({ src, poster, children, vertical, triggerClassName, 
             src={asset(src)}
             poster={asset(poster)}
             controls
+            aria-label={title}
             autoPlay
             playsInline
             className={cn(

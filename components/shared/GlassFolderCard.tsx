@@ -9,6 +9,8 @@ type Props = {
   title: string;
   /** City / country line under the title. */
   meta: string;
+  /** Always visible line: role. */
+  summary?: string;
   /** Content shown on the folder front (rank digits, badge). */
   children?: React.ReactNode;
   /** Revealed when the folder is open (role, rank line, video). */
@@ -20,7 +22,7 @@ type Props = {
   className?: string;
 };
 
-const MAX_TILT = 7;
+const MAX_TILT = 3;
 
 /**
  * Glass folder: frosted panel over the scene, tilts toward the pointer,
@@ -30,6 +32,7 @@ const MAX_TILT = 7;
 export function GlassFolderCard({
   title,
   meta,
+  summary,
   children,
   files,
   open,
@@ -74,7 +77,7 @@ export function GlassFolderCard({
         {/* tab */}
         <div
           aria-hidden
-          className="ml-6 h-4 w-28 rounded-t-[var(--r-md)] border border-b-0 border-ink-700 bg-ink-800/80"
+          className="ml-6 h-4 w-28 rounded-t-[var(--r-md)] border border-b-0 border-ink-500 bg-ink-800"
         />
         <button
           type="button"
@@ -103,9 +106,12 @@ export function GlassFolderCard({
               <span className="block font-display text-h3 font-medium leading-[1.1] tracking-[-0.015em] text-white">
                 {title}
               </span>
-              <span className="mt-1 block text-meta font-medium uppercase tracking-[0.06em] text-bone-100/80">
+              <span className="mt-1 block text-meta font-medium uppercase tracking-[0.06em] text-white">
                 {meta}
               </span>
+              {summary ? (
+                <span className="mt-3 block max-w-[48ch] text-body text-white">{summary}</span>
+              ) : null}
             </span>
             <span
               aria-hidden
@@ -134,7 +140,7 @@ export function GlassFolderCard({
                 initial={reduce ? false : { opacity: 0, y: -16, rotate: (i - (all.length - 1) / 2) * -2.5 }}
                 animate={{ opacity: 1, y: 0, rotate: 0 }}
                 transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1], delay: i * 0.06 }}
-                className="rounded-[var(--r-md)] border border-ink-700 bg-ink-900/80 p-4 text-body backdrop-blur-[20px]"
+                className="rounded-[var(--r-md)] border border-ink-700 bg-ink-900 p-4 text-body"
               >
                 {file}
               </motion.div>

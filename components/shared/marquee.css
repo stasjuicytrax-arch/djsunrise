@@ -1,0 +1,25 @@
+/* Marquee-row: two identical lists, the track moves by half its width. */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-run var(--marquee-dur, 60s) linear infinite;
+  animation-direction: var(--marquee-dir, normal);
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee-run {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+  }
+  .marquee-track > ul[aria-hidden="true"] {
+    display: none;
+  }
+}
