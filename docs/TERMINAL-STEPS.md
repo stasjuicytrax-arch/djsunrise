@@ -28,7 +28,7 @@ git add .
 git commit -m "Подготовка к верстке: ТЗ v2, дизайн-система v2, ассеты, видео"
 ```
 ```
-git remote add origin https://github.com/stasjuicytrax-arch/Sunrise.git
+git remote add origin https://github.com/stasjuicytrax-arch/djsunrise.git
 ```
 ```
 git push -u origin main
