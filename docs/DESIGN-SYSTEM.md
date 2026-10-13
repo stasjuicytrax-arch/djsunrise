@@ -178,9 +178,12 @@
 | **Marquee-row** | бегущая строка имен Outfit `--t-h2`, разделитель — мини-солнце SVG | PromoKit |
 | **Name-strip** | полоса имен (как «Trusted by» в REF-3) под hero: 6–8 имен из Top 100 DJs текстом, без подписи-эйбрау | REF-3 |
 
-### 7.2 Компоненты 21st.dev (обязательные, по запросу заказчика)
-Ставятся через shadcn-реестр 21st.dev, затем **перекрашиваются в токены этой системы** (tasteskill: shadcn-компоненты никогда в дефолтном виде).
+### 7.2 Компоненты (решение заказчика от 14.10.2026)
+Из 21st.dev берутся **только два компонента**: Tilted Grid Hero (`docs/21st/tilted-grid-hero.md`, галерея) и Velvet Haze (`docs/21st/velvet-haze.md`, фон Contact). Они ставятся в `components/ui/` и перекрашиваются в токены. Остальные компоненты ниже делаются **нативно**, без внешних реестров и без Remotion; колонка «Как адаптировать» остается спецификацией поведения, «Ссылка» только референс идеи.
 
+Нативная замена: Glass Folder Cards = стеклянные карточки клубов (наклон к курсору, раскрытие); Bar-Built Digits = цифры из вертикальных баров; Polyrhythm Orbit List = три орбиты имен (mobile: три marquee-строки); Gradient Tracing = линия с бегущим градиентом `--sun-500` → `--dawn-400`; Halftone Wordmark Footer = гигантский SUNRISE (полутон не обязателен).
+
+Исходный список (референс идей):
 | Компонент | Ссылка | Где на сайте | Как адаптировать |
 |---|---|---|---|
 | **Tilted Grid Hero** | 21st.dev/@ruixen.ui/components/tilted-grid-hero | **Галерея** (главный запрос заказчика: «крутая галерея») | изогнутая бесконечная лента изображений; картинки — заглушки `public/gallery/placeholder-*.jpg` (позже живые фото); заголовок поверх: «live» / «on stage»; фон `--ink-950`, рамка без бордера, r=0 (full-bleed) |
@@ -191,15 +194,6 @@
 | **Halftone Wordmark Footer** | 21st.dev/@kedhareswer/components/halftone-wordmark-footer | **Footer**: гигантский вордмарк SUNRISE из полутоновых точек, обрезанный низом | точки `--ink-700`, при наведении теплеют до `--dawn-400`; клик — ударная волна; колонки ссылок: якоря, контакты, PDF |
 | **Velvet Haze** | 21st.dev/@kedhareswer/components/velvet-haze | фон **Contact** (и опционально подложка hero на мобиле) | перекрасить серебро/фиолет в **ember**: `#3A0A0B`, `#8F1719`, `#DD2C05`, `#FE6C04` на черном; зерно оставить; WebGL только в зоне видимости |
 
-Установка (терминал, из корня проекта):
-```bash
-npx shadcn@latest add "https://21st.dev/r/ruixen.ui/tilted-grid-hero"
-npx shadcn@latest add "https://21st.dev/r/kedhareswer/glass-folder-cards"
-npx shadcn@latest add "https://21st.dev/r/preetsuthar17/gradient-tracing"
-npx shadcn@latest add "https://21st.dev/r/kedhareswer/halftone-wordmark-footer"
-npx shadcn@latest add "https://21st.dev/r/kedhareswer/velvet-haze"
-```
-Если адрес реестра не сработает, на странице компонента нажать «CLI» и взять команду оттуда, либо «Copy» и вставить код в `components/ui/<имя>.tsx`.
 
 ### 7.3 Общие правила компонентов
 - Радиусы: `--r-sm 8` · `--r-md 12` · `--r-lg 20` · `--r-xl 48` (только hero-frame) · `--r-pill 999`.

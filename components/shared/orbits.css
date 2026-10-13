@@ -1,0 +1,90 @@
+/* Orbits: three rings of names around the sun. All sizes in cqw so the
+   stage scales as one object. Transform-only animation. */
+
+.orbits {
+  container-type: inline-size;
+}
+
+.orbits-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.orbits-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  animation: orbits-spin var(--dur) linear infinite;
+  animation-direction: var(--dir, normal);
+}
+
+.orbits-slot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: rotate(var(--a)) translateY(calc(var(--r) * -1));
+}
+
+.orbits-hold {
+  display: block;
+  transform: rotate(calc(var(--a) * -1));
+}
+
+.orbits-name {
+  display: block;
+  width: 0;
+  height: 0;
+  animation: orbits-spin var(--dur) linear infinite;
+  animation-direction: var(--dir-inv, reverse);
+  transition: opacity var(--d-fast, 240ms) var(--ease-out);
+}
+
+@keyframes orbits-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.orbits-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+
+/* Hover: everything else dims, motion holds */
+.orbits:has(.orbits-name:hover) .orbits-ring,
+.orbits:has(.orbits-name:hover) .orbits-name,
+.orbits:has(.orbits-name:focus-visible) .orbits-ring,
+.orbits:has(.orbits-name:focus-visible) .orbits-name {
+  animation-play-state: paused;
+}
+.orbits:has(.orbits-name:hover) .orbits-name:not(:hover),
+.orbits:has(.orbits-name:focus-visible) .orbits-name:not(:focus-visible) {
+  opacity: 0.28;
+}
+
+/* Marquee rows (mobile) */
+.orbits-row {
+  display: flex;
+  width: max-content;
+  animation: orbits-marquee var(--dur) linear infinite;
+  animation-direction: var(--dir, normal);
+}
+@keyframes orbits-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbits-ring,
+  .orbits-name,
+  .orbits-row {
+    animation-play-state: paused;
+  }
+}

@@ -1,6 +1,6 @@
 # Техническое задание · SUNRISE e-press-kit
 
-**Версия 2.0** (13.10.2026). Изменения против 1.0: hero = студийный портрет на красно-оранжевом фоне; добавлены 7 компонентов 21st.dev; галерея на временных заглушках; видео уже перекодированы и лежат в репозитории; тяжелый `SUNRISE Movie.mp4` (2 ГБ) исключен; стек Next.js + shadcn (нужен для компонентов 21st.dev); добавлен скилл-донор awesome-design-md.
+**Версия 2.0** (13.10.2026). Изменения против 1.0: hero = студийный портрет на красно-оранжевом фоне; из 21st.dev берутся только Tilted Grid Hero и Velvet Haze, остальные компоненты §7.2 делаются нативно; галерея на временных заглушках; видео уже перекодированы и лежат в репозитории; тяжелый `SUNRISE Movie.mp4` (2 ГБ) исключен; стек Next.js + shadcn (нужен для компонентов 21st.dev); добавлен скилл-донор awesome-design-md.
 
 | | |
 |---|---|
@@ -115,7 +115,7 @@ Mobile: вертикальный таймлайн без pin.
 Год не выводить и не писать upcoming/past, пока заказчик не уточнит.
 
 ### 8 · Contact (слайд 10)
-**Фон:** **Velvet Haze** в ember-цветах (DESIGN-SYSTEM §7.2) на всю секцию.
+**Фон:** **Velvet Haze** (21st.dev, `components/ui/velvet-haze.tsx`, обертка `components/shared/SunriseHaze.tsx`, preset ember + палитра токенов) на всю секцию; контакты внутри через children, ссылки и кнопки с `pointer-events-auto`. На мобиле maxDpr 1.5, reduced-motion встроен в компонент.
 **Контент:** `// contact`; Bookings `+90 543 490 62 47` (WhatsApp → `https://wa.me/905434906247`), `whitebarpattaya@gmail.com` (mailto), `+66 94 438 9777` (tel). Телефоны JetBrains Mono. У e-mail и телефонов кнопка Copy (Phosphor `Copy`, «copied» 1.5 с).
 **Главный CTA:** Notch-card «book sunrise» на `--g-dawn` с Sun-CTA в вырезе → WhatsApp. Справа вырезанный портрет (`portrait-cutout.webp`) в теплом свете (REF-4 финальный CTA на фото артиста).
 **Закат:** при доскролле солнце опускается за горизонт (обратный hero-сценарий), остается линия горизонта `--dawn-400`.
@@ -161,7 +161,7 @@ Nav-пилюля появляется после hero: мини-солнце (�
 |---|---|
 | Фреймворк | **Next.js 15** (App Router, TypeScript, `output: 'export'` — статический сайт) |
 | Стили | **Tailwind CSS v4**, токены DESIGN-SYSTEM в `@theme` (`app/globals.css`) |
-| Компоненты | **shadcn/ui** (init) — нужен для установки компонентов 21st.dev |
+| Компоненты | **shadcn/ui** (init), базовые примитивы. Из 21st.dev только **Tilted Grid Hero** и **Velvet Haze** (`docs/21st/`) |
 | Анимация | **Motion** (`motion/react`) для компонентов и состояний + **GSAP 3** (ScrollTrigger, SplitText, Flip) для pin/скролл-сцен |
 | Скролл | **Lenis**, синхронизирован с ScrollTrigger; выключен при reduced-motion |
 | Иконки | `@phosphor-icons/react` |
@@ -171,7 +171,7 @@ Nav-пилюля появляется после hero: мини-солнце (�
 Структура:
 ```
 app/        layout.tsx, page.tsx, globals.css (токены), fonts/
-components/ ui/ (21st.dev, shadcn) · sections/ Hero, NameStrip, Showreel, Residencies, ClubNight, Together, Progress, Venues, Gallery, Tour, Contact, Footer, Nav · shared/ SunMark, SunCTA, SunPill, VideoPlayer, MediaFrame, BarDigits, Orbits, ArcFan
+components/ ui/ (Tilted Grid Hero и Velvet Haze из 21st.dev, shadcn) · sections/ Hero, NameStrip, Showreel, Residencies, ClubNight, Together, Progress, Venues, Gallery, Tour, Contact, Footer, Nav · shared/ SunMark, SunCTA, SunPill, VideoPlayer, MediaFrame, BarDigits, Orbits, ArcFan
 data/       residencies.ts, artists.ts, progress.ts, venues.ts, gallery.ts, posters.ts, tour.ts, contacts.ts
 lib/        motion.ts (GSAP + Lenis + reduced-motion guard), video.ts (IO-автоплей)
 public/     brand/ video/ gallery/ posters/ PromoKit-SunRise.pdf
@@ -205,7 +205,7 @@ public/     brand/ video/ gallery/ posters/ PromoKit-SunRise.pdf
 - [ ] Весь контент CONTENT.md на месте: 3 резиденции, 51 позиция артистов, 7 вех + 120 cities, 34 площадки, 19 стран, 10 афиш, 11 дат тура, 3 контакта.
 - [ ] Видео V1–V5 задействованы, автоплей muted только в зоне видимости, звук по клику.
 - [ ] Hero «Восход» и финальный «Закат» работают; reduced-motion версия есть.
-- [ ] Все 7 компонентов 21st.dev стоят на своих местах и перекрашены в токены.
+- [ ] Tilted Grid Hero (галерея) и Velvet Haze (фон Contact) из 21st.dev перекрашены в токены; остальные компоненты §7.2 реализованы нативно и перекрашены в токены.
 - [ ] Галерея на заглушках, замена — правкой `data/gallery.ts`.
 - [ ] После каждого блока `/impeccable critique`; перед каждым пушем slop-проверка + `/impeccable polish`; Pre-Flight taste пройден (ноль em-dash).
 - [ ] Метрики §7, проверено на iPhone и Android.
@@ -213,7 +213,7 @@ public/     brand/ video/ gallery/ posters/ PromoKit-SunRise.pdf
 
 ## 11. Порядок работ (каждый шаг = коммит + пуш)
 1. Каркас: Next.js + Tailwind v4 + shadcn + шрифты + токены + data-файлы. `/impeccable init`.
-2. Установить 7 компонентов 21st.dev (DESIGN-SYSTEM §7.2), перекрасить.
+2. Tilted Grid Hero и Velvet Haze (из `docs/21st/`) в `components/ui`, перекрасить; остальные компоненты DESIGN-SYSTEM §7.2 сделать нативно.
 3. Блоки по порядку карты (§2): сначала статичная верстка всего контента, потом моушн. После каждого блока `/impeccable critique`.
 4. Hero «Восход» и Contact «Закат» (`/impeccable animate`, `overdrive`).
 5. Адаптив (`/impeccable adapt`), скорость (`optimize`), доступность (`audit`).
