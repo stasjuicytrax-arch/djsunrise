@@ -11,3 +11,9 @@ dist/
 # Скиллы копируются локально, в git не кладем
 .claude/skills/
 _parts/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
