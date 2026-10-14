@@ -4,19 +4,19 @@ import * as React from "react";
 import VelvetHaze, { type HazeParams } from "@/components/ui/velvet-haze";
 
 /**
- * Velvet Haze (21st.dev) painted with the SUNRISE ember palette. Used as the
- * Contact background: it is the section root, its height follows the content,
- * and interactive children opt back in with `pointer-events-auto`.
+ * Velvet Haze (21st.dev) painted as a sunset: only warm, dark colors, no pale
+ * fog. The canvas is flipped vertically (see .haze-up in globals.css) so the
+ * light rises from the bottom and the top of the section stays almost black.
  */
-const EMBER: Partial<HazeParams> = {
+const SUNSET: Partial<HazeParams> = {
   inkColor: "#0A0909", // --ink-950
   shadowColor: "#060506",
-  emberColor: "#8F1719", // --sun-700
-  violetColor: "#DD2C05", // --dawn-600
-  lavenderColor: "#FE6C04", // --dawn-400
-  silverColor: "#F2EFEE", // --bone-100
-  exposure: 0.85, // keeps the silver haze from washing out contact text
-  bloom: 1.1,
+  silverColor: "#8F1719", // --sun-700, the brightest the haze may get
+  lavenderColor: "#DD2C05", // --dawn-600
+  violetColor: "#FE6C04", // --dawn-400
+  emberColor: "#3A0A0B",
+  exposure: 0.55,
+  bloom: 0.9,
   ember: 1,
 };
 
@@ -40,9 +40,10 @@ export function SunriseHaze({ children, className }: Props) {
     <VelvetHaze
       height="auto"
       preset="ember"
-      params={EMBER}
+      params={SUNSET}
       maxDpr={maxDpr}
-      className={className}
+      interactive={false}
+      className={`haze-up ${className ?? ""}`}
     >
       {children}
     </VelvetHaze>

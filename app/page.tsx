@@ -1,7 +1,6 @@
 import { Nav } from "@/components/sections/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { NameStrip } from "@/components/sections/NameStrip";
-import { Showreel } from "@/components/sections/Showreel";
 import { Residencies } from "@/components/sections/Residencies";
 import { ClubNight } from "@/components/sections/ClubNight";
 import { Together } from "@/components/sections/Together";
@@ -19,7 +18,6 @@ export default function Home() {
       <main>
         <Hero />
         <NameStrip />
-        <Showreel />
         <Residencies />
         <ClubNight />
         <Together />

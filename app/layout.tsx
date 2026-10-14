@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { asset } from "@/lib/asset";
+import { SmoothScroll } from "@/components/shared/SmoothScroll";
 
 const outfit = localFont({
   src: [
@@ -54,7 +55,10 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} ${generalSans.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }

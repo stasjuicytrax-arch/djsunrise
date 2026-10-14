@@ -25,6 +25,7 @@ export function Nav() {
       if (bar) {
         const hide = y > last && y > 160;
         bar.dataset.hidden = hide ? "true" : "false";
+        bar.inert = hide;
       }
       last = y;
     };
@@ -64,21 +65,23 @@ export function Nav() {
         ref={barRef}
         data-hidden="false"
         className={cn(
-          "fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[var(--page-x)] pt-4",
+          "fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[clamp(16px,3vw,40px)] pt-[18px]",
           "transition-transform duration-[var(--d-base)] ease-[var(--ease-out)] data-[hidden=true]:-translate-y-[120%]",
         )}
       >
         <a
           href="#top"
           aria-label="SUNRISE, back to top"
-          className="grid size-14 place-items-center rounded-full bg-ink-900/80 backdrop-blur-[16px]"
+          className="flex items-center"
+          style={{ animation: "hero-fade 0.5s var(--ease-out) 0.3s both" }}
         >
-          <SunMark className="w-8" />
+          <SunMark className="w-[30px]" />
         </a>
 
         <nav
           aria-label="Sections"
-          className="hidden h-14 items-center gap-1 rounded-[var(--r-pill)] bg-ink-900/80 py-2 pl-3 pr-2 backdrop-blur-[16px] lg:flex"
+          className="hidden items-center gap-0.5 rounded-[var(--r-pill)] bg-ink-900/55 py-[5px] pl-4 pr-[5px] backdrop-blur-[14px] lg:flex"
+          style={{ animation: "hero-fade 0.5s var(--ease-out) 0.3s both" }}
         >
           {NAV_LINKS.map((l) => (
             <a
@@ -86,8 +89,8 @@ export function Nav() {
               href={`#${l.id}`}
               aria-current={active === l.id ? "true" : undefined}
               className={cn(
-                "rounded-full px-3 py-2 text-meta font-medium uppercase tracking-[0.06em] no-underline transition-colors duration-[var(--d-fast)]",
-                active === l.id ? "text-white" : "text-fog-400 hover:text-white",
+                "rounded-full px-2.5 py-2 text-[12px] font-medium uppercase tracking-[0.08em] no-underline transition-colors duration-[var(--d-fast)]",
+                active === l.id ? "text-white" : "text-bone-100/70 hover:text-white",
               )}
             >
               {l.label}
@@ -95,16 +98,19 @@ export function Nav() {
           ))}
           <a
             href={contacts.bookings.href}
-            className="ml-2 inline-flex h-10 items-center rounded-full bg-sun-500 px-5 text-meta font-semibold uppercase tracking-[0.06em] text-white no-underline transition-colors duration-[var(--d-base)] hover:bg-dawn-400 hover:text-white"
+            className="ml-1 inline-flex items-center rounded-full bg-sun-500 px-4 py-2.5 text-[12px] font-medium uppercase tracking-[0.08em] text-white no-underline transition-colors duration-[var(--d-base)] hover:bg-dawn-400 hover:text-white"
           >
             Book
           </a>
         </nav>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div
+          className="flex items-center gap-2 lg:hidden"
+          style={{ animation: "hero-fade 0.5s var(--ease-out) 0.3s both" }}
+        >
           <a
             href={contacts.bookings.href}
-            className="inline-flex h-14 items-center rounded-full bg-sun-500 px-6 text-meta font-semibold uppercase tracking-[0.06em] text-white no-underline hover:bg-dawn-400 hover:text-white"
+            className="inline-flex h-12 items-center rounded-full bg-sun-500 px-5 text-[12px] font-medium uppercase tracking-[0.08em] text-white no-underline hover:bg-dawn-400 hover:text-white"
           >
             Book
           </a>
@@ -113,7 +119,7 @@ export function Nav() {
             aria-label="Open menu"
             aria-expanded={menu}
             onClick={() => setMenu(true)}
-            className="grid size-14 place-items-center rounded-full bg-ink-900/80 text-white backdrop-blur-[16px]"
+            className="grid size-12 place-items-center rounded-full bg-ink-900/55 text-white backdrop-blur-[14px]"
           >
             <List size={24} />
           </button>

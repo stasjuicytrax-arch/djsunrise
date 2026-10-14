@@ -1,5 +1,4 @@
 import { NameStrip } from "@/components/sections/NameStrip";
-import { Showreel } from "@/components/sections/Showreel";
 import { Residencies } from "@/components/sections/Residencies";
 import { ClubNight } from "@/components/sections/ClubNight";
 
@@ -8,7 +7,6 @@ export default function SectionsLab() {
   return (
     <main>
       <NameStrip />
-      <Showreel />
       <Residencies />
       <ClubNight />
     </main>

@@ -1,5 +1,6 @@
 import { FullPlayer, SoundIcon } from "@/components/shared/FullPlayer";
 import { LoopVideo } from "@/components/shared/LoopVideo";
+import { Parallax } from "@/components/shared/motion";
 
 const STORIES = [
   {
@@ -10,6 +11,7 @@ const STORIES = [
     title: "Club night, arrival and the booth",
     caption: "Club night",
     offset: "md:mt-0",
+    depth: 36,
   },
   {
     id: "v5",
@@ -19,6 +21,7 @@ const STORIES = [
     title: "Short film, blue light dance floor",
     caption: "Short film",
     offset: "md:mt-24",
+    depth: 80,
   },
 ] as const;
 
@@ -52,6 +55,7 @@ export function ClubNight() {
             key={s.id}
             className={`w-[72vw] shrink-0 snap-center md:w-[min(28vw,420px)] ${s.offset}`}
           >
+            <Parallax distance={s.depth} className="will-change-transform">
             <FullPlayer
               src={s.full}
               poster={s.poster}
@@ -77,6 +81,7 @@ export function ClubNight() {
               </span>
               <span className="sr-only">{s.title}, play with sound</span>
             </FullPlayer>
+            </Parallax>
           </li>
         ))}
       </ul>

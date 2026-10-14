@@ -1,103 +1,216 @@
+"use client";
+
+import * as React from "react";
+import { Play, SpeakerSlash } from "@phosphor-icons/react";
 import { SunPill } from "@/components/shared/SunPill";
+import { Wordmark } from "@/components/shared/Wordmark";
 import { contacts } from "@/data/contacts";
-import { residencies } from "@/data/residencies";
+import { residencies, residenciesTitle } from "@/data/residencies";
 import { asset } from "@/lib/asset";
 
-const PORTRAIT_POSITION = "52% 30%";
+const SRC = {
+  desk: {
+    loop: "/video/v1-aftermovie-loop.mp4",
+    full: "/video/v1-aftermovie-full.mp4",
+    poster: "/video/posters/after-movie-grozzman-16x9.jpg",
+  },
+  mob: {
+    loop: "/video/v2-aftermovie-9x16-loop.mp4",
+    full: "/video/v2-aftermovie-9x16-full.mp4",
+    poster: "/video/posters/after-movie-grozzman-9x16.jpg",
+  },
+} as const;
 
 /**
- * Hero (TZ 3.1). Layers, back to front:
- * 1. studio portrait on the sunrise gradient (the photo itself is the light)
- * 2. giant SUNRISE, cropped by the bottom edge of the frame
- * 3. cut-out portrait, head and shoulders over the letters
- * 4. copy, CTA
+ * Hero: festival film full-bleed from the first frame (desktop V1, mobile V2),
+ * a thin dawn-orange horizon above a bottom bar with the wordmark, the three
+ * DJ Mag ranks, sound and booking. No reveal animation: only the bar and nav
+ * ease in (fade + 10px, ~0.5 s). Layout follows docs/hero-sketch.html.
  */
 export function Hero() {
-  const clubs = residencies.map((r) => r.club).join(" · ");
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [mobile, setMobile] = React.useState<boolean | null>(null);
+  const [soundOn, setSoundOn] = React.useState(false);
+
+  // Source is chosen on the client so a phone never downloads the 2:1 file.
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 860px)");
+    const sync = () => setMobile(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  const media = mobile ? SRC.mob : SRC.desk;
+  const ready = mobile !== null;
+
+  // Play the muted loop while on screen and while the tab is visible.
+  React.useEffect(() => {
+    const v = videoRef.current;
+    if (!v || !ready) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    v.src = asset(media.loop);
+    v.poster = asset(media.poster);
+    v.muted = true;
+    setSoundOn(false);
+    let visible = true;
+    const sync = () => {
+      if (reduce) return;
+      if (visible && !document.hidden) void v.play().catch(() => undefined);
+      else v.pause();
+    };
+    const io = new IntersectionObserver(
+      ([e]) => {
+        visible = e.isIntersecting;
+        sync();
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(v);
+    document.addEventListener("visibilitychange", sync);
+    sync();
+    return () => {
+      io.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+    };
+  }, [ready, media.loop, media.poster]);
+
+  const backToLoop = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.src = asset(media.loop);
+    v.loop = true;
+    v.muted = true;
+    void v.play().catch(() => undefined);
+    setSoundOn(false);
+  };
+
+  // "Sound on" turns the same video element into the full cut with sound.
+  const toggleSound = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (!soundOn) {
+      v.src = asset(media.full);
+      v.loop = false;
+      v.muted = false;
+      v.currentTime = 0;
+      v.play().then(
+        () => setSoundOn(true),
+        () => {
+          v.muted = true;
+        },
+      );
+    } else {
+      backToLoop();
+    }
+  };
+
+  const ranks = [...residencies].sort((a, b) => a.rank - b.rank);
 
   return (
-    <section id="top" className="px-[var(--page-x)] pt-[var(--page-x)]">
-      <div className="hero-frame relative h-[calc(100svh-var(--page-x))] min-h-[560px] overflow-hidden rounded-b-[28px] bg-dawn-600 md:rounded-b-[var(--r-xl)]">
-        {/* 1. portrait */}
+    <section
+      id="top"
+      className="hero relative isolate overflow-hidden bg-ink-950 max-[860px]:h-auto min-[861px]:h-svh min-[861px]:min-h-[600px]"
+    >
+      <div className="stage relative max-[860px]:h-[72svh] max-[860px]:min-h-[480px] min-[861px]:absolute min-[861px]:inset-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={asset("/brand/portrait-hero.jpg")}
-          alt="Portrait of DJ SUNRISE in a black polo, arms crossed"
-          width={1672}
-          height={941}
-          fetchPriority="high"
-          decoding="async"
-          className="absolute inset-0 size-full object-cover"
-          style={{ objectPosition: PORTRAIT_POSITION }}
-        />
-
-        {/* scrim under the name: keeps white copy above 4.5:1 on the orange side */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 hidden md:block"
-          style={{
-            background:
-              "linear-gradient(270deg, rgba(10,9,9,0.62) 0%, rgba(10,9,9,0.34) 28%, transparent 56%)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 md:hidden"
-          style={{
-            background:
-              "linear-gradient(0deg, rgba(10,9,9,0.7) 0%, rgba(10,9,9,0.55) 38%, transparent 62%)",
-          }}
-        />
-
-        {/* 2. the name */}
-        <h1
-          className="absolute inset-x-0 bottom-0 m-0 flex justify-center whitespace-nowrap font-display font-semibold uppercase text-white"
-          style={{
-            fontSize: "var(--t-name)",
-            lineHeight: 0.8,
-            letterSpacing: "-0.04em",
-            transform: "translateY(3%)",
-          }}
-        >
-          <span className="sr-only">SUNRISE, DJ, Bangkok, Pattaya</span>
-          <span aria-hidden>SUNRISE</span>
-        </h1>
-
-        {/* 3. cut-out over the letters */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={asset("/brand/portrait-cutout.webp")}
+          src={asset(media.poster)}
           alt=""
           aria-hidden
-          width={1672}
-          height={941}
-          decoding="async"
-          className="pointer-events-none absolute inset-0 size-full object-cover"
+          fetchPriority="high"
+          className="absolute inset-0 size-full object-cover"
+        />
+        <video
+          ref={videoRef}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          onEnded={backToLoop}
+          aria-label="SUNRISE b2b Grozzman, festival after movie"
+          className="absolute inset-0 size-full object-cover"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-[1]"
           style={{
-            objectPosition: PORTRAIT_POSITION,
-            // head and shoulders only: the torso must not swallow the letters
-            maskImage: "linear-gradient(180deg, #000 0%, #000 64%, transparent 80%)",
-            WebkitMaskImage: "linear-gradient(180deg, #000 0%, #000 64%, transparent 80%)",
+            background:
+              "radial-gradient(120% 90% at 50% 45%, transparent 50%, rgba(10,9,9,.85) 100%), linear-gradient(to top, rgba(10,9,9,.92) 0%, rgba(10,9,9,.35) 26%, transparent 46%)",
           }}
         />
-        {/* 4. copy */}
-        <div className="absolute inset-x-5 top-[54%] flex flex-col items-start gap-5 md:inset-x-auto md:right-8 md:top-1/2 md:w-[min(26rem,34vw)] md:-translate-y-1/2 lg:w-[26rem]">
-          <p className="m-0 text-meta font-medium uppercase tracking-[0.06em] text-white">
-            bangkok <span aria-hidden>{"//"}</span>
-            <span className="sr-only">,</span> pattaya
+        {/* the horizon: thin dawn-orange line above the bar */}
+        <div
+          aria-hidden
+          className="horizon pointer-events-none absolute inset-x-0 z-[3] h-px max-[860px]:bottom-0 min-[861px]:bottom-[clamp(118px,17vh,170px)]"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, var(--dawn-400) 20%, var(--dawn-400) 80%, transparent)",
+          }}
+        />
+      </div>
+
+      <div
+        className="hero-bar z-[4] grid items-center gap-[clamp(16px,4vw,64px)] px-[clamp(16px,3vw,40px)] max-[860px]:relative max-[860px]:grid-cols-1 max-[860px]:gap-[22px] max-[860px]:bg-ink-950 max-[860px]:pb-[30px] max-[860px]:pt-[22px] min-[861px]:absolute min-[861px]:inset-x-0 min-[861px]:bottom-0 min-[861px]:h-[clamp(118px,17vh,170px)] min-[861px]:grid-cols-[auto_1fr_auto]"
+        style={{ animation: "hero-fade 0.5s var(--ease-out) 0.15s both" }}
+      >
+        <div className="grid gap-2">
+          <h1 className="m-0">
+            <Wordmark className="h-[clamp(30px,4vw,54px)] w-auto" />
+            <span className="sr-only">, DJ, Bangkok, Pattaya</span>
+          </h1>
+          <p className="m-0 text-[12px] font-semibold uppercase tracking-[0.16em] text-fog-400">
+            Bangkok <span aria-hidden className="text-dawn-400">{"//"}</span>
+            <span className="sr-only">,</span> Pattaya
           </p>
-          <p className="m-0 font-display text-h3 font-medium leading-[1.1] tracking-[-0.015em] text-white">
-            DJ Mag Top 100 Clubs resident.
-          </p>
-          <p className="m-0 text-meta font-medium uppercase tracking-[0.06em] text-white">{clubs}</p>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-1">
-            <SunPill href={contacts.bookings.href} target="_blank" rel="noopener">
-              Book a date
-            </SunPill>
-            <SunPill href="#showreel" variant="ghost">
-              Watch showreel
-            </SunPill>
-          </div>
+        </div>
+
+        <ul
+          role="list"
+          className="m-0 flex list-none items-start gap-[clamp(18px,3.4vw,52px)] p-0 max-[860px]:justify-between min-[861px]:justify-center"
+          aria-label={residenciesTitle}
+        >
+          {ranks.map((r) => (
+            <li key={r.id}>
+              <b
+                className="block font-display font-light leading-[0.9] tracking-[-0.04em] text-bone-100"
+                style={{
+                  fontSize: "clamp(30px, 3.6vw, 56px)",
+                  fontVariantNumeric: "tabular-nums",
+                }}
+              >
+                #{r.rank}
+              </b>
+              <span className="mt-1.5 block text-[11px] font-semibold uppercase tracking-[0.12em] text-fog-400">
+                {r.club}
+              </span>
+            </li>
+          ))}
+          <li className="self-end max-[860px]:hidden">
+            <small className="block max-w-[11ch] font-mono text-[11px] leading-[1.3] text-fog-400">
+              {residenciesTitle}
+            </small>
+          </li>
+        </ul>
+
+        <p className="m-0 -mt-3 font-mono text-[11px] leading-[1.3] text-fog-400 min-[861px]:hidden">
+          {residenciesTitle}
+        </p>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={toggleSound}
+            className="inline-flex h-[52px] cursor-pointer items-center gap-3 rounded-full border-0 bg-bone-100/10 py-1.5 pl-1.5 pr-[18px] text-[14px] font-semibold text-white backdrop-blur-[10px] transition-colors duration-[var(--d-fast)] hover:bg-bone-100/20"
+          >
+            <span className="grid size-10 place-items-center rounded-full bg-white text-ink-950">
+              {soundOn ? <SpeakerSlash weight="fill" size={16} /> : <Play weight="fill" size={14} />}
+            </span>
+            <span>{soundOn ? "Sound off" : "Sound on"}</span>
+          </button>
+          <SunPill href={contacts.bookings.href} target="_blank" rel="noopener">
+            Book a date
+          </SunPill>
         </div>
       </div>
     </section>

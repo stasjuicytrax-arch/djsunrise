@@ -4,10 +4,16 @@ import * as React from "react";
 import { Check, Copy } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
-type Props = { value: string; label: string; className?: string };
+type Props = {
+  value: string;
+  label: string;
+  className?: string;
+  /** `text`: borderless icon button, for dense rows. */
+  variant?: "pill" | "text";
+};
 
 /** Copies `value`, says "copied" for 1.5 s. */
-export function CopyButton({ value, label, className }: Props) {
+export function CopyButton({ value, label, className, variant = "pill" }: Props) {
   const [done, setDone] = React.useState(false);
   const timer = React.useRef<number | undefined>(undefined);
 
@@ -43,8 +49,10 @@ export function CopyButton({ value, label, className }: Props) {
       onClick={copy}
       aria-label={`Copy ${label}`}
       className={cn(
-        "pointer-events-auto inline-flex h-11 items-center gap-2 rounded-full border border-white/30 px-4 text-meta font-medium uppercase tracking-[0.06em] text-white",
-        "transition-colors duration-[var(--d-fast)] hover:border-white hover:bg-white/10",
+        "pointer-events-auto inline-flex items-center gap-2 text-white transition-colors duration-[var(--d-fast)]",
+        variant === "pill"
+          ? "h-11 rounded-full border border-white/30 px-4 text-meta font-medium uppercase tracking-[0.06em] hover:border-white hover:bg-white/10"
+          : "h-9 rounded-md px-2 text-micro font-medium uppercase tracking-[0.1em] text-fog-400 hover:text-white",
         className,
       )}
     >

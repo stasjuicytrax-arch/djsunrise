@@ -36,9 +36,8 @@
 | # | Секция `#якорь` | Слайды | Ритм | Видео / компонент |
 |---|---|---|---|---|
 | 0 | Preloader | — | — | мини-солнце |
-| 1 | **Hero** `#top` | 1 | DROP | портрет + «Восход» |
+| 1 | **Hero** `#top` | 1 | DROP | видео V1 / V2 full-bleed + нижняя панель |
 | 1a | Name-strip | 3 (часть) | — | 8 имен Top 100 DJs полосой (REF-3) |
-| — | Showreel | — | DROP | **V1** (desktop) / **V2** (mobile) |
 | 2 | **Residencies** `#residencies` | 2 | STATE | **Glass Folder Cards** + CountUp (ранги); **V3** в папке Space Plus |
 | — | Club night | — | DROP | **V4** + **V5** (сторис) |
 | 3 | **Play together** `#together` | 3, 4, 5 | LIST | **Polyrhythm Orbit List** (3 орбиты) |
@@ -60,26 +59,18 @@
 ### 0 · Preloader (≤ 1.2 с, только если постер hero еще не готов)
 Черный экран, мини-солнце: 16 лучей загораются по кругу по мере загрузки портрета и шрифтов. Без процентов. Если всё готово за 300 мс, прелоадер не показывать. Переход: мини-солнце = солнце hero (shared element).
 
-### 1 · Hero (слайд 1): главный вау-момент
-**Контент:** `public/brand/portrait-hero.jpg` (фон) + `portrait-cutout.webp` (вырез, для слоя поверх букв), логотип `logo-sunrise.svg` (лучи отдельными `<path class="ray">`), слово **SUNRISE** гигантским кеглем (`--t-name`), подпись `bangkok // pattaya`, тезис справа (General Sans `--t-lead`): `DJ Mag Top 100 Clubs resident.` / `Republic · Bootshaus · Space Plus` (только факты со слайда 2), Sun-pill-CTA «Book a date» → WhatsApp, вторичная кнопка «Watch showreel» → скролл к Showreel.
-
-**Композиция (REF-3 + REF-4):** Hero-frame inset с `border-radius: 0 0 48px 48px`, внутри фон = портрет на градиенте рассвета (`object-fit: cover`, фокус на лице: `object-position: 52% 30%`), края фото бесшовно продолжаются `--g-dawn`. Гигантское **SUNRISE** во всю ширину внизу кадра, обрезано нижним краем hero-frame. **Слои:** фон-портрет → слово SUNRISE → вырезанный портрет поверх слова (голова и плечи перекрывают буквы, как в REF-4). Слева сверху мини-логотип, справа сверху навбар-пилюля. Справа по центру — тезис + CTA.
-Mobile: портрет занимает верхние 65 %, SUNRISE в одну строку на всю ширину под лицом, CTA внизу во всю ширину.
-
-**Сценарий «Восход» (≤ 2.4 с, один раз):**
-1. 0–300 мс: черный экран, по центру внизу загорается тонкая линия горизонта `--dawn-400` от центра к краям.
-2. 300–1200 мс: 16 лучей солнца вырастают из центра горизонта (scaleY 0 → 1, стаггер 40 мс), под ними поднимается свет `--g-sunrise`.
-3. 1000–1700 мс: лучи становятся **маской**: в щелях между лучами проступает портрет на рассветном фоне; маска масштабируется (scale 1 → 12), раскрывая hero-frame целиком; скругление снизу «приземляется» (r 0 → 48).
-4. 1500–2400 мс: SUNRISE въезжает снизу по буквам (маска, стаггер 30 мс), вырезанный портрет слегка «выходит вперед» (scale 1.04 → 1, blur 8 → 0), тезис и CTA проявляются построчно.
-
-**Скролл из hero:** hero-frame уходит вверх, портрет чуть медленнее (параллакс глубины ≤ 60px), солнце собирается в мини-иконку навбара.
-**Состояния:** reduced-motion → финальный кадр без анимации; CTA hover (круг со стрелкой сдвигается, стрелка поворачивается); focus-visible.
+### 1 · Hero (слайд 1): видео-первый (утверждено заказчиком 14.10.2026, эскиз `docs/hero-sketch.html`)
+**Основа:** видео V1 (`v1-aftermovie-loop.mp4`, mobile V2 `v2-aftermovie-9x16-loop.mp4`) на весь первый экран с первого кадра, muted loop playsInline, постер `after-movie-grozzman-16x9.jpg` / `-9x16.jpg`. Без анимации раскрытия (лучи, веер, маска убраны).
+**Слои:** постер/видео → виньетка (`radial` по краям + затемнение снизу `rgba(10,9,9,.92)` до 46 %) → тонкая линия-горизонт `--dawn-400` (1px, градиент по краям в прозрачность) на высоте нижней панели → панель → навбар.
+**Нижняя панель** (высота `clamp(118px,17vh,170px)`, сетка 3 колонки): вордмарк SUNRISE из `logo-sunrise.svg` + `bangkok // pattaya` (`//` в `--dawn-400`); ранги `#7 Bootshaus · #43 Space Plus · #90 Republic` (Outfit 300) и мелкая подпись `DJ Mag Top 100 Clubs` (JetBrains Mono); справа кнопка «Sound on» (стеклянная пилюля, белый круг с play) и «Book a date» (красная пилюля с белым кругом-стрелкой, → WhatsApp).
+**Звук:** «Sound on» подменяет источник того же `<video>` на полную версию V1 (V2 на mobile) со звуком и включает звук; повторное нажатие выключает звук.
+**Навбар:** сверху, мини-солнце слева, стеклянная пилюля с якорями и «Book» справа; прячется при скролле вниз.
+**Движение:** панель и навбар проявляются fade + 10px за ~0.5 с; больше входных анимаций нет. Reduced-motion: видео стоит на постере, без fade.
+**Mobile (≤ 860px):** видео `72svh` (min 480px), линия-горизонт по нижнему краю видео, панель под видео на чистом `--ink-950`, ранги в ряд по ширине, подпись DJ Mag скрыта.
+**Убрано:** студийный портрет и гигантское SUNRISE из hero; отдельный блок Showreel (V1 уже в hero). Портрет `portrait-cutout.webp` используется только в Contact.
 
 ### 1a · Name-strip (под hero, REF-3)
 Одна строка из 8 имен Top 100 DJs (BLASTERJAXX, R3HAB, VINAI, LE TWINS, DIEGO MIRANDA, PLASTIK FUNK, KAAZE, 22 BULLETS — все есть на слайде 3), Outfit 500, `--fog-400`, медленный marquee. Без подписи сверху (запрет эйбрау). Слева короткая фраза в одну строку `played together with` (`--t-micro`), привязанная к строке.
-
-### Showreel (DROP)
-**V1** `v1-aftermovie-loop.mp4` full-bleed (mobile: **V2** `v2-aftermovie-9x16-loop.mp4`), muted loop, постер `posters/after-movie-grozzman-16x9.jpg`. Вход: видео раскрывается из полосы-горизонта (clip-path inset 48% → 0). Поверх слева внизу: `sunrise b2b grozzman` (`--t-h3`) — надпись есть на экране сцены в видео. Sun-CTA «Play with sound» → полноэкранный плеер `v1-aftermovie-full.mp4` (mobile `v2-aftermovie-9x16-full.mp4`), Esc закрывает, фокус возвращается.
 
 ### 2 · Residencies (слайд 2)
 **Контент:** Republic 90 · Bootshaus 7 · Space Plus 43 (роли и города из CONTENT.md), подпись «DJ Mag Top 100 Clubs».
@@ -134,9 +125,9 @@ Nav-пилюля появляется после hero: мини-солнце (�
 
 | Код | Файл на сайте | Размер | Где |
 |---|---|---|---|
-| V1 | `v1-aftermovie-loop.mp4` (1920×960, 14 с, без звука) | 7.4 МБ | Showreel desktop |
-| V1 | `v1-aftermovie-full.mp4` (1920×960, 55 с, звук) | 24.9 МБ | плеер по клику |
-| V2 | `v2-aftermovie-9x16-loop.mp4` (720×1280, 14 с) | 4.1 МБ | Showreel mobile |
+| V1 | `v1-aftermovie-loop.mp4` (1920×960, 14 с, без звука) | 7.4 МБ | Hero desktop |
+| V1 | `v1-aftermovie-full.mp4` (1920×960, 55 с, звук) | 24.9 МБ | кнопка «Sound on» в Hero |
+| V2 | `v2-aftermovie-9x16-loop.mp4` (720×1280, 14 с) | 4.1 МБ | Hero mobile, Club night |
 | V2 | `v2-aftermovie-9x16-full.mp4` (55 с, звук) | 14.3 МБ | плеер mobile |
 | V3 | `v3-spaceplus-loop.mp4` / `-full.mp4` | 3.4 / 8.1 МБ | папка Space Plus |
 | V4 | `v4-clubnight-loop.mp4` / `-full.mp4` | ~4 МБ / см. ASSETS | Club night |
@@ -171,7 +162,7 @@ Nav-пилюля появляется после hero: мини-солнце (�
 Структура:
 ```
 app/        layout.tsx, page.tsx, globals.css (токены), fonts/
-components/ ui/ (Tilted Grid Hero и Velvet Haze из 21st.dev, shadcn) · sections/ Hero, NameStrip, Showreel, Residencies, ClubNight, Together, Progress, Venues, Gallery, Tour, Contact, Footer, Nav · shared/ SunMark, SunCTA, SunPill, VideoPlayer, MediaFrame, CountUp, Orbits, ArcFan
+components/ ui/ (Tilted Grid Hero и Velvet Haze из 21st.dev, shadcn) · sections/ Hero, NameStrip, Residencies, ClubNight, Together, Progress, Venues, Gallery, Tour, Contact, Footer, Nav · shared/ SunMark, SunCTA, SunPill, VideoPlayer, MediaFrame, CountUp, Orbits, ArcFan
 data/       residencies.ts, artists.ts, progress.ts, venues.ts, gallery.ts, posters.ts, tour.ts, contacts.ts
 lib/        motion.ts (GSAP + Lenis + reduced-motion guard), video.ts (IO-автоплей)
 public/     brand/ video/ gallery/ posters/ PromoKit-SunRise.pdf
@@ -204,7 +195,7 @@ public/     brand/ video/ gallery/ posters/ PromoKit-SunRise.pdf
 ## 10. Критерии приемки
 - [ ] Весь контент CONTENT.md на месте: 3 резиденции, 51 позиция артистов, 7 вех + 120 cities, 34 площадки, 19 стран, 10 афиш, 11 дат тура, 3 контакта.
 - [ ] Видео V1–V5 задействованы, автоплей muted только в зоне видимости, звук по клику.
-- [ ] Hero «Восход» и финальный «Закат» работают; reduced-motion версия есть.
+- [ ] Hero: видео сразу на весь экран, нижняя панель с рангами, звук по кнопке; финальный «Закат» в Contact; reduced-motion версия есть.
 - [ ] Tilted Grid Hero (галерея) и Velvet Haze (фон Contact) из 21st.dev перекрашены в токены; остальные компоненты §7.2 реализованы нативно и перекрашены в токены.
 - [ ] Галерея на заглушках, замена — правкой `data/gallery.ts`.
 - [ ] После каждого блока `/impeccable critique`; перед каждым пушем slop-проверка + `/impeccable polish`; Pre-Flight taste пройден (ноль em-dash).
@@ -215,6 +206,6 @@ public/     brand/ video/ gallery/ posters/ PromoKit-SunRise.pdf
 1. Каркас: Next.js + Tailwind v4 + shadcn + шрифты + токены + data-файлы. `/impeccable init`.
 2. Tilted Grid Hero и Velvet Haze (из `docs/21st/`) в `components/ui`, перекрасить; остальные компоненты DESIGN-SYSTEM §7.2 сделать нативно.
 3. Блоки по порядку карты (§2): сначала статичная верстка всего контента, потом моушн. После каждого блока `/impeccable critique`.
-4. Hero «Восход» и Contact «Закат» (`/impeccable animate`, `overdrive`).
+4. Contact «Закат» и скролл-моушн секций (`/impeccable animate`); Hero без входных анимаций, кроме fade панели.
 5. Адаптив (`/impeccable adapt`), скорость (`optimize`), доступность (`audit`).
 6. `/impeccable polish` → Pre-Flight taste → деплой на Vercel.
