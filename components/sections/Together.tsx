@@ -1,5 +1,6 @@
 import { Orbits } from "@/components/shared/Orbits";
 import { artistGroups } from "@/data/artists";
+import { Reveal } from "@/components/shared/motion";
 
 /**
  * Play together (LIST): three orbits of names around the sun.
@@ -14,14 +15,22 @@ export function Together() {
       <div className="mx-auto max-w-[1792px]">
         <h2 className="m-0 max-w-[16ch] font-display text-display font-semibold leading-[0.98] tracking-[-0.03em]">
           play{" "}
-          <span className="rounded-full bg-sun-500 px-[0.32em] py-[0.04em] text-white">
+          <Reveal
+            as="span"
+            kind="wipe"
+            duration={1.1}
+            delay={0.15}
+            className="inline-block rounded-full bg-sun-500 px-[0.32em] py-[0.04em] text-white"
+          >
             together
-          </span>{" "}
+          </Reveal>{" "}
           in clubs with Top 100 DJs
         </h2>
 
         <div className="mt-16">
-          <Orbits groups={artistGroups} className="mx-auto max-w-[1100px]" />
+          <Reveal kind="scale" duration={1.5} start="top 80%">
+            <Orbits groups={artistGroups} className="mx-auto max-w-[1100px]" />
+          </Reveal>
         </div>
 
         {/* orbit legend, desktop: which ring is which */}
