@@ -39,12 +39,12 @@ export function Gallery() {
       {/* blend into the page above and below */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[10%]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[6%]"
         style={{ background: "linear-gradient(180deg, var(--ink-950) 0%, transparent 100%)" }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[14%]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[8%]"
         style={{ background: "linear-gradient(0deg, var(--ink-950) 0%, transparent 100%)" }}
       />
     </section>

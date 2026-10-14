@@ -117,9 +117,7 @@ function StoryCard({ story, className }: { story: Story; className?: string }) {
         soundRef.current = true;
         setSound(true);
       },
-      () => {
-        v.muted = true;
-      },
+      () => toLoop(),
     );
   };
 
@@ -163,7 +161,6 @@ function StoryCard({ story, className }: { story: Story; className?: string }) {
       <button
         type="button"
         onClick={toggle}
-        aria-pressed={sound}
         aria-label={`${story.caption}, ${sound ? "turn sound off" : "play with sound"}`}
         className="absolute bottom-3 right-3 grid size-12 place-items-center rounded-full bg-sun-500 text-white transition-colors duration-[var(--d-fast)] hover:bg-dawn-400"
       >
@@ -198,12 +195,12 @@ export function ClubNight() {
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink-950 to-transparent"
       />
-      <ul className="relative mx-auto flex max-w-[1792px] snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--page-x)] pb-20 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:pb-24 lg:grid-cols-4 lg:gap-8 [&::-webkit-scrollbar]:hidden">
+      <ul className="relative mx-auto flex max-w-[1792px] snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--page-x)] pb-20 md:grid md:grid-cols-2 scroll-pl-[var(--page-x)] md:gap-6 md:overflow-visible md:pb-24 lg:grid-cols-4 lg:gap-8 [&::-webkit-scrollbar]:hidden">
         {STORIES.map((s, i) => (
           <li
             key={s.id}
             className={cn(
-              "w-[72vw] shrink-0 snap-center md:w-auto",
+              "w-[72vw] shrink-0 snap-start md:w-auto",
               i % 2 === 1 && "lg:translate-y-20",
             )}
           >

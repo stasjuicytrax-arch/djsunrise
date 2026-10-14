@@ -237,7 +237,8 @@
   }
 }
 
-.haze-up canvas {
+.haze-up canvas,
+.haze-up > div.absolute.inset-0 {
   transform: scaleY(-1);
 }
 
@@ -253,7 +254,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
+  *:not([class*="tgh-t-"]),
   *::before,
   *::after {
     animation-duration: 0.001ms !important;

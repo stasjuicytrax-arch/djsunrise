@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { SunMark } from "./SunMark";
+import { GiantWordmark } from "./GiantWordmark";
 import "./orbits.css";
 
 export type OrbitGroup = {
@@ -47,7 +47,10 @@ export function Orbits({ groups, className }: Props) {
 
       {/* desktop: orbits */}
       <div aria-hidden className="orbits-stage hidden md:block">
-        <SunMark className="absolute left-1/2 top-1/2 w-[24%] -translate-x-1/2 -translate-y-1/2" />
+        <GiantWordmark
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{ fontSize: "6.4cqw" }}
+        />
         {groups.slice(0, 3).map((g, gi) => {
           const ring = RINGS[gi];
           const n = g.names.length;

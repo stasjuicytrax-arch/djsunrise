@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { CaretLeft, CaretRight, X } from "@phosphor-icons/react";
 import { wallColumns, wallItems, wallTitle, type WallItem } from "@/data/posters";
 import { asset } from "@/lib/asset";
@@ -154,12 +155,12 @@ export function PostersWall() {
       {/* fade in and out of the page */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[30%]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[20%]"
         style={{ background: "linear-gradient(180deg, var(--ink-950) 0%, transparent 100%)" }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[20%]"
         style={{ background: "linear-gradient(0deg, var(--ink-950) 0%, transparent 100%)" }}
       />
 
@@ -168,7 +169,8 @@ export function PostersWall() {
         {wallTitle}
       </h2>
 
-      {current ? (
+      {current && typeof document !== "undefined"
+        ? createPortal(
         <div
           role="dialog"
           aria-modal="true"
@@ -229,8 +231,10 @@ export function PostersWall() {
               Tour dates
             </button>
           ) : null}
-        </div>
-      ) : null}
+        </div>,
+        document.body,
+      )
+        : null}
     </section>
   );
 }

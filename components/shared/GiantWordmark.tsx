@@ -1,37 +1,41 @@
+import * as React from "react";
 import { cn } from "@/lib/utils";
+import "./airport.css";
 
 type Props = {
   text?: string;
   className?: string;
+  style?: React.CSSProperties;
 };
 
 /**
- * Footer wordmark: the name at --t-name, cropped by the bottom edge of its
- * box. Letters warm up one by one on hover. Native replacement for the
- * Halftone Wordmark Footer (no halftone dots).
+ * The SUNRISE name as airport lights: dim letters, a flame runs along them
+ * (CSS only, transform-free), and now and then the whole word blinks twice.
+ * Speed follows --airport-step / --airport-lap, which a parent can raise on
+ * hover. Reduced motion: all letters burn steady dawn-400.
  */
-export function GiantWordmark({ text = "SUNRISE", className }: Props) {
+export function GiantWordmark({ text = "SUNRISE", className, style }: Props) {
+  const letters = [...text];
   return (
-    <div
-      className={cn("overflow-hidden", className)}
-      aria-label={text}
+    <span
+      className={cn("airport select-none", className)}
+      style={style}
       role="img"
+      aria-label={text}
     >
-      {/* 0.62em of a 0.8 line-height box: the lower part of the glyphs is cut off */}
-      <div
-        aria-hidden
-        className="flex h-[0.62em] select-none items-start justify-between font-display font-semibold leading-[0.8] tracking-[-0.04em] text-ink-800"
-        style={{ fontSize: "var(--t-name)" }}
-      >
-        {[...text].map((ch, i) => (
-          <span
-            key={i}
-            className="transition-colors duration-[var(--d-slow)] ease-[var(--ease-out)] hover:text-dawn-400 hover:duration-[var(--d-instant)]"
-          >
-            {ch}
-          </span>
-        ))}
-      </div>
-    </div>
+      {letters.map((ch, i) => (
+        <span
+          key={i}
+          aria-hidden
+          className="airport-letter"
+          style={{ "--i": i } as React.CSSProperties}
+        >
+          {ch}
+        </span>
+      ))}
+      <span aria-hidden className="airport-blink">
+        {text}
+      </span>
+    </span>
   );
 }

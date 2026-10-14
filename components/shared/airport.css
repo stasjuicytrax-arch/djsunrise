@@ -1,0 +1,87 @@
+/* "Airport lights": the word is dim; a flame runs left to right, each letter
+   flashes dawn-400 with a soft glow and fades. One lap = letters x step + a
+   600 ms pause. Every ~4th lap the whole word blinks twice. */
+.airport {
+  --step: var(--airport-step, 0.12s);
+  --lap: var(--airport-lap, 1.44s); /* 7 letters x 120 ms + 600 ms pause */
+  position: relative;
+  display: inline-flex;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.airport-letter {
+  color: var(--ink-700);
+  animation: airport-run var(--lap) linear infinite;
+  animation-delay: calc(var(--i) * var(--step));
+}
+
+@keyframes airport-run {
+  0% {
+    color: var(--ink-700);
+    text-shadow: none;
+  }
+  3% {
+    color: var(--dawn-400);
+    text-shadow: 0 0 12px var(--sun-400);
+  }
+  9% {
+    color: var(--dawn-400);
+    text-shadow: 0 0 12px var(--sun-400);
+  }
+  16%,
+  100% {
+    color: var(--ink-700);
+    text-shadow: none;
+  }
+}
+
+/* the double blink: a bright copy of the word on top, quiet most of the time */
+.airport-blink {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  color: var(--dawn-400);
+  text-shadow: 0 0 12px var(--sun-400);
+  opacity: 0;
+  pointer-events: none;
+  animation: airport-blink calc(var(--lap) * 4) linear infinite;
+  animation-delay: calc(var(--lap) * 3);
+}
+
+@keyframes airport-blink {
+  0%,
+  70% {
+    opacity: 0;
+  }
+  72%,
+  76% {
+    opacity: 1;
+  }
+  79%,
+  83% {
+    opacity: 0;
+  }
+  85%,
+  89% {
+    opacity: 1;
+  }
+  92%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .airport-letter {
+    animation: none;
+    color: var(--dawn-400);
+  }
+  .airport-blink {
+    display: none;
+  }
+}

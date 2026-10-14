@@ -22,8 +22,8 @@ export function Contact() {
       {/* erodes the red fringe of the cut-out by 2px and softens the edge */}
       <svg width="0" height="0" aria-hidden className="absolute">
         <filter id="portrait-edge" colorInterpolationFilters="sRGB">
-          <feMorphology in="SourceAlpha" operator="erode" radius="2" result="core" />
-          <feGaussianBlur in="core" stdDeviation="0.9" result="soft" />
+          <feMorphology in="SourceAlpha" operator="erode" radius="3" result="core" />
+          <feGaussianBlur in="core" stdDeviation="1.1" result="soft" />
           <feComposite in="SourceGraphic" in2="soft" operator="in" />
         </filter>
       </svg>
@@ -47,7 +47,7 @@ export function Contact() {
           style={{ filter: "url(#portrait-edge)" }}
         />
 
-        <div className="relative flex min-h-[max(100svh,760px)] flex-1 flex-col justify-end px-[var(--page-x)] pb-[clamp(48px,9vh,96px)] pt-[30svh]">
+        <div className="relative flex min-h-[max(100svh,760px)] flex-1 flex-col justify-end px-[var(--page-x)] pb-[clamp(48px,9vh,96px)] pt-[18svh] md:pt-[30svh]">
           <h2 className="m-0 font-display text-h2 font-medium leading-[1] tracking-[-0.025em] text-white">
             <span className="text-sun-500">{"//"}</span> contact
           </h2>
@@ -84,7 +84,7 @@ export function Contact() {
                   value={c.display}
                   label={copy}
                   variant="text"
-                  className="shrink-0 md:opacity-0 md:transition-opacity md:group-hover/row:opacity-100 md:focus-visible:opacity-100"
+                  className="shrink-0 [@media(hover:hover)_and_(min-width:768px)]:opacity-0 transition-opacity [@media(hover:hover)_and_(min-width:768px)]:group-hover/row:opacity-100 focus-visible:opacity-100"
                 />
               </li>
             ))}
