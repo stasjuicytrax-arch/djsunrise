@@ -105,7 +105,7 @@
 | `--t-lead` | `clamp(1.125rem, 1.4vw, 1.375rem)` | General Sans 500 | -0.005em | 1.4 | тезисы (правая колонка hero, как в REF-3) |
 | `--t-body` | `1rem` | General Sans 400 | 0 | 1.55 | редкий текст, ≤ 65ch |
 | `--t-meta` | `0.8125rem` | General Sans 500, UPPERCASE | +0.06em | 1.3 | города, страны, лейблы медиа |
-| `--t-micro` | `0.6875rem` | General Sans 500, UPPERCASE | +0.1em | 1.2 | микротипографика рядом с гигантами (REF-1) |
+| `--t-micro` | `0.75rem` | General Sans 500, UPPERCASE | +0.1em | 1.2 | микротипографика рядом с гигантами (REF-1) |
 | `--t-data` | `clamp(0.95rem, 1.2vw, 1.125rem)` | JetBrains Mono 500 | 0 | 1.3 | даты, телефоны |
 
 ### 4.3 Правила набора

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { List, X } from "@phosphor-icons/react";
+import { List, X } from "@phosphor-icons/react/dist/ssr";
 import { SunMark } from "@/components/shared/SunMark";
 import { contacts } from "@/data/contacts";
 import { NAV_LINKS } from "@/data/nav";
@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils";
  */
 export function Nav() {
   const barRef = React.useRef<HTMLElement>(null);
+  const menuBtnRef = React.useRef<HTMLButtonElement>(null);
+  const closeBtnRef = React.useRef<HTMLButtonElement>(null);
   const [active, setActive] = React.useState<string>("");
   const [menu, setMenu] = React.useState(false);
 
@@ -53,9 +55,15 @@ export function Nav() {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenu(false);
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    closeBtnRef.current?.focus();
+    const main = document.querySelector("main");
+    main?.setAttribute("inert", "");
+    const opener = menuBtnRef.current;
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      main?.removeAttribute("inert");
+      opener?.focus();
     };
   }, [menu]);
 
@@ -116,8 +124,10 @@ export function Nav() {
           </a>
           <button
             type="button"
+            ref={menuBtnRef}
             aria-label="Open menu"
             aria-expanded={menu}
+            aria-controls="site-menu"
             onClick={() => setMenu(true)}
             className="grid size-12 place-items-center rounded-full bg-ink-900/85 text-white"
           >
@@ -128,6 +138,7 @@ export function Nav() {
 
       {menu ? (
         <div
+          id="site-menu"
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
@@ -136,6 +147,7 @@ export function Nav() {
           <div className="flex justify-end">
             <button
               type="button"
+              ref={closeBtnRef}
               aria-label="Close menu"
               onClick={() => setMenu(false)}
               className="grid size-14 place-items-center rounded-full bg-ink-900 text-white"

@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   assetPrefix: basePath || undefined,
   images: { unoptimized: true },
   trailingSlash: true,
+  experimental: { optimizePackageImports: ["@phosphor-icons/react", "motion"] },
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
 };
 

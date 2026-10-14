@@ -45,6 +45,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(`${SITE}/`),
   title: TITLE,
   description: DESCRIPTION,
+  alternates: { canonical: `${SITE}/` },
+  robots: { index: true, follow: true },
   icons: {
     icon: [{ url: asset("/brand/favicon-sun.svg"), type: "image/svg+xml" }],
     apple: [{ url: asset("/apple-touch-icon.png"), sizes: "180x180" }],
@@ -55,6 +57,7 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     url: `${SITE}/`,
     siteName: "SUNRISE",
+    locale: "en_US",
     images: [{ url: `${SITE}/og.jpg`, width: 1200, height: 630, alt: "SUNRISE, DJ, Bangkok // Pattaya" }],
   },
   twitter: {
@@ -95,6 +98,12 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[80] focus:rounded-full focus:bg-sun-500 focus:px-5 focus:py-3 focus:text-white"
+        >
+          Skip to content
+        </a>
         <SmoothScroll />
         <PauseOffscreen />
         {children}

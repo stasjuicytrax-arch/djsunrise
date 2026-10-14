@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { SpeakerHigh, X } from "@phosphor-icons/react";
+import { SpeakerHigh, X } from "@phosphor-icons/react/dist/ssr";
 import { asset } from "@/lib/asset";
 import { cn } from "@/lib/utils";
 

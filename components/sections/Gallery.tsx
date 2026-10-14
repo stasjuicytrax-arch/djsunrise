@@ -16,7 +16,7 @@ export function Gallery() {
       data-pause-offscreen
       className="relative mt-[var(--section-y)] flex h-[70svh] min-h-[480px] flex-col bg-ink-950 md:h-svh md:min-h-[640px]"
     >
-      <div className="relative z-10 flex items-end justify-between gap-6 px-[var(--page-x)] pb-2 pt-[clamp(24px,5vh,56px)]">
+      <div className="relative z-10 flex items-end justify-between gap-6 px-[var(--page-x)] pb-2 pt-[clamp(24px,5vh,56px)] max-md:pt-24">
         <h2 className="m-0 font-display text-display font-semibold leading-[0.95] tracking-[-0.03em] text-white">
           {galleryTitle}
         </h2>

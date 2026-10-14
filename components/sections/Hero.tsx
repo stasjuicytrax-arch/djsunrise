@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Play, SpeakerSlash } from "@phosphor-icons/react";
+import { Play, SpeakerSlash } from "@phosphor-icons/react/dist/ssr";
 import { SunPill } from "@/components/shared/SunPill";
 import { Wordmark } from "@/components/shared/Wordmark";
 import { contacts } from "@/data/contacts";
@@ -128,7 +128,7 @@ export function Hero() {
       id="top"
       className="hero relative isolate overflow-hidden bg-ink-950 max-[860px]:h-auto min-[861px]:h-svh min-[861px]:min-h-[600px]"
     >
-      <div className="stage relative max-[860px]:h-[72svh] max-[860px]:min-h-[480px] min-[861px]:absolute min-[861px]:inset-0">
+      <div className="stage relative max-[860px]:h-[min(72svh,calc(100svh-250px))] max-[860px]:min-h-[340px] min-[861px]:absolute min-[861px]:inset-0">
         {/* LCP: the right poster is chosen by the browser from the first paint, no JS */}
         <picture>
           <source media="(max-width: 599px)" srcSet={asset(SRC.mob.poster)} />
@@ -137,6 +137,8 @@ export function Hero() {
             src={asset(SRC.desk.poster)}
             alt=""
             aria-hidden
+            width={1920}
+            height={960}
             fetchPriority="high"
             decoding="async"
             className="absolute inset-0 size-full object-cover"

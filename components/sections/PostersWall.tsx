@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { CaretLeft, CaretRight, X } from "@phosphor-icons/react";
+import { CaretLeft, CaretRight, X } from "@phosphor-icons/react/dist/ssr";
 import { wallColumns, wallItems, wallTitle, type WallItem } from "@/data/posters";
 import { asset } from "@/lib/asset";
 import { cn } from "@/lib/utils";

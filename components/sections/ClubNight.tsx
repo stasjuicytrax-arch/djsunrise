@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useReducedMotion } from "motion/react";
-import { SpeakerHigh, SpeakerSlash } from "@phosphor-icons/react";
+import { SpeakerHigh, SpeakerSlash } from "@phosphor-icons/react/dist/ssr";
 import { Parallax } from "@/components/shared/motion";
 import { announceSound, onOtherSound } from "@/lib/soundBus";
 import { asset } from "@/lib/asset";
