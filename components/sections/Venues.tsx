@@ -3,6 +3,7 @@
 import * as React from "react";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
 import { regions, venues, type Region } from "@/data/venues";
+import { Reveal } from "@/components/shared/motion";
 import { cn } from "@/lib/utils";
 
 const tourAnchor = (date: string) => `#tour-${date.replace(".", "-")}`;
@@ -47,7 +48,15 @@ export function Venues() {
         </div>
 
         <LayoutGroup>
-          <ul className="venues-list m-0 grid list-none grid-cols-1 gap-x-16 p-0 md:grid-cols-2">
+          <Reveal
+            as="ul"
+            kind="mask"
+            stagger={0.03}
+            maxSpread={0.6}
+            duration={0.7}
+            start="top 85%"
+            className="venues-list m-0 grid list-none grid-cols-1 gap-x-16 p-0 md:grid-cols-2"
+          >
             <AnimatePresence initial={false} mode="popLayout">
               {shown.map((v) => (
                 <motion.li
@@ -76,7 +85,7 @@ export function Venues() {
                 </motion.li>
               ))}
             </AnimatePresence>
-          </ul>
+          </Reveal>
         </LayoutGroup>
 
         <p className="m-0 mt-10 max-w-[70ch] text-body text-fog-400">
