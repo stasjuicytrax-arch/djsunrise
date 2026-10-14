@@ -23,6 +23,7 @@ const RINGS = [
 ] as const;
 
 const ROW_DUR = [46, 58, 70];
+const RING_RADII = RINGS.map((r) => r.r);
 
 /**
  * Three orbits of names around the SUNRISE sun. Desktop: rings with upright
@@ -52,7 +53,7 @@ export function Orbits({ groups, className }: Props) {
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{ fontSize: "6.4cqw" }}
         />
-        <OrbitPulses radii={RINGS.map((r) => r.r)} />
+        <OrbitPulses radii={RING_RADII} />
         {groups.slice(0, 3).map((g, gi) => {
           const ring = RINGS[gi];
           const n = g.names.length;
