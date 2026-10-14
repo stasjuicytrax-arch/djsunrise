@@ -1,4 +1,5 @@
 import { CountUp } from "@/components/shared/CountUp";
+import { Reveal, Scrub } from "@/components/shared/motion";
 import { cities, countries, milestones } from "@/data/progress";
 
 /**
@@ -32,8 +33,14 @@ export function Progress() {
             aria-hidden
             className="absolute bottom-0 left-[7px] top-0 w-[3px] overflow-hidden rounded-full bg-ink-700 md:left-[11px]"
           >
-            <span
-              className="absolute inset-0 opacity-40"
+            <Scrub
+              as="span"
+              from={{ scaleY: 0 }}
+              to={{ scaleY: 1 }}
+              triggerSelector="ol"
+              start="top 65%"
+              end="bottom 55%"
+              className="absolute inset-0 origin-top"
               style={{ background: "linear-gradient(180deg, var(--sun-500), var(--dawn-400))" }}
             />
             <span
@@ -43,7 +50,14 @@ export function Progress() {
           </span>
 
           {milestones.map((m, i) => (
-            <li key={`${m.year}-${i}`} className="relative pb-20 last:pb-0">
+            <Reveal
+              as="li"
+              kind="mask"
+              y={28}
+              duration={0.9}
+              key={`${m.year}-${i}`}
+              className="relative pb-20 last:pb-0"
+            >
               <span
                 aria-hidden
                 className="absolute -left-10 top-[0.55em] size-[17px] rounded-full border-[3px] border-ink-950 bg-sun-500 md:-left-14 md:size-6"
@@ -62,7 +76,7 @@ export function Progress() {
                   </span>
                 </div>
               ) : null}
-            </li>
+            </Reveal>
           ))}
         </ol>
       </div>
