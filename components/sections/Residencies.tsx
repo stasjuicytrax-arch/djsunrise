@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { LayoutGroup } from "motion/react";
+import { Reveal } from "@/components/shared/motion";
+import { refreshScroll } from "@/lib/motion";
 import { CountUp } from "@/components/shared/CountUp";
 import { GlassFolderCard } from "@/components/shared/GlassFolderCard";
 import { LoopVideo } from "@/components/shared/LoopVideo";
@@ -14,6 +16,11 @@ import { residencies, residenciesTitle } from "@/data/residencies";
  */
 export function Residencies() {
   const [open, setOpen] = React.useState<string | null>(null);
+
+  // a folder opening changes the page height: refresh triggers by hand, once
+  React.useEffect(() => {
+    refreshScroll(700);
+  }, [open]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -44,6 +51,7 @@ export function Residencies() {
         <LayoutGroup>
         <div className="flex flex-col gap-6">
           {residencies.map((r, i) => (
+            <Reveal key={r.id} kind="mask" y={36} duration={0.9} delay={i * 0.14} start="top 92%">
             <GlassFolderCard
               key={r.id}
               title={r.club}
@@ -100,6 +108,7 @@ export function Residencies() {
                 />
               </span>
             </GlassFolderCard>
+            </Reveal>
           ))}
         </div>
         </LayoutGroup>

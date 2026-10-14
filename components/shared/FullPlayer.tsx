@@ -59,7 +59,7 @@ export function FullPlayer({ src, poster, children, vertical, triggerClassName, 
           role="dialog"
           aria-modal="true"
           aria-label={title}
-          className="fixed inset-0 z-[70] grid place-items-center bg-ink-950/95 p-4 backdrop-blur-[8px]"
+          className="fixed inset-0 z-[70] grid place-items-center bg-ink-950/95 p-4"
           onClick={(e) => e.target === e.currentTarget && setOpen(false)}
           onBlur={(e) => {
             // keep focus inside the dialog; the native video controls stay reachable

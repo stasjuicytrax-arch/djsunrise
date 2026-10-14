@@ -13,6 +13,7 @@ export function Gallery() {
   return (
     <section
       id="gallery"
+      data-pause-offscreen
       className="relative mt-[var(--section-y)] flex h-[70svh] min-h-[480px] flex-col bg-ink-950 md:h-svh md:min-h-[640px]"
     >
       <div className="relative z-10 flex items-end justify-between gap-6 px-[var(--page-x)] pb-2 pt-[clamp(24px,5vh,56px)]">

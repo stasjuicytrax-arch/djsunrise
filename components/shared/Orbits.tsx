@@ -32,7 +32,7 @@ const RING_RADII = RINGS.map((r) => r.r);
  */
 export function Orbits({ groups, className }: Props) {
   return (
-    <div className={cn("orbits", className)}>
+    <div data-pause-offscreen className={cn("orbits", className)}>
       {/* accessible list of every name */}
       <div className="sr-only">
         {groups.map((g) => (

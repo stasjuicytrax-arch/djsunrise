@@ -13,12 +13,12 @@ const SRC = {
   desk: {
     loop: "/video/v1-aftermovie-loop.mp4",
     full: "/video/v1-aftermovie-full.mp4",
-    poster: "/video/posters/after-movie-grozzman-16x9.jpg",
+    poster: "/video/posters/after-movie-grozzman-16x9.webp",
   },
   mob: {
     loop: "/video/v2-aftermovie-9x16-loop.mp4",
     full: "/video/v2-aftermovie-9x16-full.mp4",
-    poster: "/video/posters/after-movie-grozzman-9x16.jpg",
+    poster: "/video/posters/after-movie-grozzman-9x16.webp",
   },
 } as const;
 
@@ -129,14 +129,19 @@ export function Hero() {
       className="hero relative isolate overflow-hidden bg-ink-950 max-[860px]:h-auto min-[861px]:h-svh min-[861px]:min-h-[600px]"
     >
       <div className="stage relative max-[860px]:h-[72svh] max-[860px]:min-h-[480px] min-[861px]:absolute min-[861px]:inset-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={asset(media.poster)}
-          alt=""
-          aria-hidden
-          fetchPriority="high"
-          className="absolute inset-0 size-full object-cover"
-        />
+        {/* LCP: the right poster is chosen by the browser from the first paint, no JS */}
+        <picture>
+          <source media="(max-width: 860px)" srcSet={asset(SRC.mob.poster)} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={asset(SRC.desk.poster)}
+            alt=""
+            aria-hidden
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 size-full object-cover"
+          />
+        </picture>
         <video
           ref={videoRef}
           muted
@@ -217,7 +222,7 @@ export function Hero() {
           <button
             type="button"
             onClick={toggleSound}
-            className="inline-flex h-[52px] cursor-pointer items-center gap-3 rounded-full border-0 bg-bone-100/10 py-1.5 pl-1.5 pr-[18px] text-[14px] font-semibold text-white backdrop-blur-[10px] transition-colors duration-[var(--d-fast)] hover:bg-bone-100/20"
+            className="inline-flex h-[52px] cursor-pointer items-center gap-3 rounded-full border-0 bg-ink-900/80 py-1.5 pl-1.5 pr-[18px] text-[14px] font-semibold text-white transition-colors duration-[var(--d-fast)] hover:bg-bone-100/20"
           >
             <span className="grid size-10 place-items-center rounded-full bg-white text-ink-950">
               {soundOn ? <SpeakerSlash weight="fill" size={16} /> : <Play weight="fill" size={14} />}

@@ -25,6 +25,7 @@ export function NameStrip() {
 
   return (
     <section
+      data-pause-offscreen
       aria-label="Played together with"
       className="my-[calc(var(--section-y)*0.6)] flex flex-col gap-4 overflow-hidden md:flex-row md:items-center md:gap-6"
     >

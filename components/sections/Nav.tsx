@@ -80,7 +80,7 @@ export function Nav() {
 
         <nav
           aria-label="Sections"
-          className="hidden items-center gap-0.5 rounded-[var(--r-pill)] bg-ink-900/55 py-[5px] pl-4 pr-[5px] backdrop-blur-[14px] lg:flex"
+          className="hidden items-center gap-0.5 rounded-[var(--r-pill)] bg-ink-900/85 py-[5px] pl-4 pr-[5px] lg:flex"
           style={{ animation: "hero-fade 0.5s var(--ease-out) 0.3s both" }}
         >
           {NAV_LINKS.map((l) => (
@@ -119,7 +119,7 @@ export function Nav() {
             aria-label="Open menu"
             aria-expanded={menu}
             onClick={() => setMenu(true)}
-            className="grid size-12 place-items-center rounded-full bg-ink-900/55 text-white backdrop-blur-[14px]"
+            className="grid size-12 place-items-center rounded-full bg-ink-900/85 text-white"
           >
             <List size={24} />
           </button>

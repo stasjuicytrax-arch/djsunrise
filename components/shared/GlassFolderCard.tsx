@@ -37,7 +37,6 @@ export function GlassFolderCard({
   files,
   open,
   onToggle,
-  appearDelay = 0,
   className,
 }: Props) {
   const reduce = useReducedMotion();
@@ -64,10 +63,6 @@ export function GlassFolderCard({
     <motion.div
       layout="position"
       className={cn("[perspective:900px]", className)}
-      initial={reduce ? false : { opacity: 0, y: 40, scale: 0.96 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1], delay: appearDelay }}
     >
       <motion.div
         onPointerMove={onMove}
@@ -87,7 +82,7 @@ export function GlassFolderCard({
           onClick={onToggle}
           className={cn(
             "group relative block w-full overflow-hidden rounded-[var(--r-lg)] border border-ink-700 p-6 text-left",
-            "bg-[rgba(18,16,17,0.55)] backdrop-blur-[20px] transition-colors duration-[var(--d-base)]",
+            "bg-[rgba(18,16,17,0.82)] transition-colors duration-[var(--d-base)]",
             "hover:border-dawn-600 focus-visible:border-dawn-400",
           )}
         >

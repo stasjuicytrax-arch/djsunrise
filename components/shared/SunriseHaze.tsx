@@ -1,51 +1,47 @@
-"use client";
-
 import * as React from "react";
-import VelvetHaze, { type HazeParams } from "@/components/ui/velvet-haze";
+import { asset } from "@/lib/asset";
+import { cn } from "@/lib/utils";
 
 /**
- * Velvet Haze (21st.dev) painted as a sunset: only warm, dark colors, no pale
- * fog. The canvas is flipped vertically (see .haze-up in globals.css) so the
- * light rises from the bottom and the top of the section stays almost black.
+ * Static sunset backdrop for Contact (no WebGL, no animation): light rises
+ * from the bottom (dawn-400 to dawn-600 to sun-700 to ink-950), the top stays
+ * almost black. A small tiled grain PNG sits on top at 6 %.
+ * Children are laid over it; the wrapper itself ignores pointer events so
+ * only the interactive children opt back in.
  */
-const SUNSET: Partial<HazeParams> = {
-  inkColor: "#0A0909", // --ink-950
-  shadowColor: "#060506",
-  silverColor: "#8F1719", // --sun-700, the brightest the haze may get
-  lavenderColor: "#DD2C05", // --dawn-600
-  violetColor: "#FE6C04", // --dawn-400
-  emberColor: "#3A0A0B",
-  exposure: 0.55,
-  bloom: 0.9,
-  ember: 1,
-};
-
-type Props = {
+export function SunriseHaze({
+  children,
+  className,
+}: {
   children?: React.ReactNode;
   className?: string;
-};
-
-export function SunriseHaze({ children, className }: Props) {
-  // Grain is per pixel: cap the render scale on phones.
-  const [maxDpr, setMaxDpr] = React.useState(1.5);
-  React.useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    const sync = () => setMaxDpr(mq.matches ? 2 : 1.5);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
-
+}) {
   return (
-    <VelvetHaze
-      height="auto"
-      preset="ember"
-      params={SUNSET}
-      maxDpr={maxDpr}
-      interactive={false}
-      className={`haze-up ${className ?? ""}`}
+    <section
+      className={cn("relative isolate w-full overflow-hidden bg-ink-950", className)}
+      aria-label="Warm sunrise light"
     >
-      {children}
-    </VelvetHaze>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(90% 62% at 50% 100%, #FE6C04 0%, #DD2C05 24%, #8F1719 52%, #3A0A0B 74%, #0A0909 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: `url(${asset("/brand/grain.png")})`,
+          backgroundSize: "128px 128px",
+          opacity: 0.06,
+          mixBlendMode: "overlay",
+        }}
+      />
+      <div className="pointer-events-none relative z-10 flex h-full w-full flex-col">
+        {children}
+      </div>
+    </section>
   );
 }

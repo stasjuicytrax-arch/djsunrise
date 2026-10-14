@@ -237,9 +237,12 @@
   }
 }
 
-.haze-up canvas,
-.haze-up > div.absolute.inset-0 {
-  transform: scaleY(-1);
+/* infinite animations stop while their section is off screen (PauseOffscreen) */
+[data-offscreen="true"],
+[data-offscreen="true"] *,
+[data-offscreen="true"] *::before,
+[data-offscreen="true"] *::after {
+  animation-play-state: paused !important;
 }
 
 @keyframes hero-fade {

@@ -4,6 +4,7 @@ import * as React from "react";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
 import { regions, venues, type Region } from "@/data/venues";
 import { Reveal } from "@/components/shared/motion";
+import { refreshScroll } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const tourAnchor = (date: string) => `#tour-${date.replace(".", "-")}`;
@@ -16,6 +17,10 @@ const tourAnchor = (date: string) => `#tour-${date.replace(".", "-")}`;
 export function Venues() {
   const [filter, setFilter] = React.useState<"All" | Region>("All");
   const reduce = useReducedMotion();
+  React.useEffect(() => {
+    refreshScroll(900); // the list height changed with the filter
+  }, [filter]);
+
   const shown = venues.filter((v) => filter === "All" || v.region === filter);
 
   return (

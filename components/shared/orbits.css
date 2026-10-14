@@ -1,5 +1,14 @@
 /* Orbits: three rings of names around the sun. All sizes in cqw so the
-   stage scales as one object. Transform-only animation. */
+   stage scales as one object.
+   Performance: ONE animation per ring (3 in total). The ring turns by the
+   registered angle --spin; every label counter-rotates by -1 x --spin read
+   from that variable, so there is no per-name animation. */
+
+@property --spin {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
 
 .orbits {
   container-type: inline-size;
@@ -17,8 +26,18 @@
   top: 50%;
   width: 0;
   height: 0;
+  transform: rotate(var(--spin));
   animation: orbits-spin var(--dur) linear infinite;
   animation-direction: var(--dir, normal);
+}
+
+@keyframes orbits-spin {
+  from {
+    --spin: 0deg;
+  }
+  to {
+    --spin: 360deg;
+  }
 }
 
 .orbits-slot {
@@ -37,29 +56,21 @@
   display: block;
   width: 0;
   height: 0;
-  animation: orbits-spin var(--dur) linear infinite;
-  animation-direction: var(--dir-inv, reverse);
   transition: opacity var(--d-fast, 240ms) var(--ease-out);
 }
 
-@keyframes orbits-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
+/* upright text: counter-rotate by the ring angle, no animation of its own */
 .orbits-label {
-  text-shadow: 0 0 10px var(--ink-950), 0 0 4px var(--ink-950);
   position: absolute;
   left: 0;
   top: 0;
   white-space: nowrap;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(calc(var(--spin) * -1));
+  will-change: transform;
 }
 
 /* Hover: everything else dims, motion holds */
-.orbits:has(.orbits-name:hover) .orbits-ring,
-.orbits:has(.orbits-name:hover) .orbits-name {
+.orbits:has(.orbits-name:hover) .orbits-ring {
   animation-play-state: paused;
 }
 .orbits:has(.orbits-name:hover) .orbits-name:not(:hover) {
@@ -81,7 +92,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .orbits-ring,
-  .orbits-name,
   .orbits-row {
     animation-play-state: paused;
   }

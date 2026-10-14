@@ -26,7 +26,7 @@ const routePath = pts.reduce((d, p, i) => {
  */
 export function Tour() {
   return (
-    <section id="tour" className="px-[var(--page-x)] py-[var(--section-y)]">
+    <section id="tour" data-pause-offscreen className="px-[var(--page-x)] py-[var(--section-y)]">
       <div className="mx-auto max-w-[1792px]">
         <h2 className="m-0 font-display text-display font-semibold leading-[0.95] tracking-[-0.03em]">
           {tourTitle}

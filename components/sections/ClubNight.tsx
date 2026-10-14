@@ -13,33 +13,45 @@ const STORIES = [
     id: "v2",
     loop: "/video/v2-aftermovie-9x16-loop.mp4",
     full: "/video/v2-aftermovie-9x16-full.mp4",
-    poster: "/video/posters/after-movie-grozzman-9x16.jpg",
+    poster: "/video/posters/after-movie-grozzman-9x16.webp",
     caption: "sunrise b2b grozzman",
   },
   {
     id: "v3",
     loop: "/video/v3-spaceplus-loop.mp4",
     full: "/video/v3-spaceplus-full.mp4",
-    poster: "/video/posters/spaceplus-pete-d-9x16.jpg",
+    poster: "/video/posters/spaceplus-pete-d-9x16.webp",
     caption: "space plus bangkok",
   },
   {
     id: "v4",
     loop: "/video/v4-clubnight-loop.mp4",
     full: "/video/v4-clubnight-full.mp4",
-    poster: "/video/posters/img-7875-9x16.jpg",
+    poster: "/video/posters/img-7875-9x16.webp",
     caption: "club night",
   },
   {
     id: "v5",
     loop: "/video/v5-shortfilm-loop.mp4",
     full: "/video/v5-shortfilm-full.mp4",
-    poster: "/video/posters/short-film-9x16.jpg",
+    poster: "/video/posters/short-film-9x16.webp",
     caption: "short film",
   },
 ] as const;
 
 type Story = (typeof STORIES)[number];
+
+// At most two muted loops play at once: the two most visible cards win.
+const ratios = new Map<string, number>();
+const listeners = new Map<string, (on: boolean) => void>();
+function rebalance() {
+  const top = [...ratios.entries()]
+    .filter(([, r]) => r > 0.35)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([id]) => id);
+  listeners.forEach((fn, id) => fn(top.includes(id)));
+}
 
 /**
  * One vertical story: a muted loop that plays only while visible. The speaker
@@ -73,23 +85,29 @@ function StoryCard({ story, className }: { story: Story; className?: string }) {
     let visible = false;
     const sync = () => {
       if (reduce && !soundRef.current) return;
-      if (visible && !document.hidden) void v.play().catch(() => undefined);
+      if ((visible || soundRef.current) && !document.hidden) void v.play().catch(() => undefined);
       else v.pause();
     };
+    listeners.set(story.id, (on) => {
+      visible = on;
+      sync();
+    });
     const io = new IntersectionObserver(
       ([e]) => {
-        visible = e.isIntersecting;
-        sync();
+        ratios.set(story.id, e.isIntersecting ? e.intersectionRatio : 0);
+        rebalance();
       },
-      { threshold: 0.35 },
+      { threshold: [0, 0.2, 0.4, 0.6, 0.8, 1] },
     );
     io.observe(v);
     document.addEventListener("visibilitychange", sync);
     return () => {
       io.disconnect();
+      listeners.delete(story.id);
+      ratios.delete(story.id);
       document.removeEventListener("visibilitychange", sync);
     };
-  }, [story.loop, reduce]);
+  }, [story.loop, story.id, reduce]);
 
   // another video took the sound: back to the silent loop
   React.useEffect(

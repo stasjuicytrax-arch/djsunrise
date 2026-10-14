@@ -10,6 +10,7 @@ export function Progress() {
   return (
     <section
       id="progress"
+      data-pause-offscreen
       className="px-[var(--page-x)] pt-[var(--section-y)]"
     >
       <div className="mx-auto grid max-w-[1792px] gap-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-24">

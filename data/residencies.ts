@@ -40,7 +40,7 @@ export const residencies: Residency[] = [
     video: {
       loop: "/video/v3-spaceplus-loop.mp4",
       full: "/video/v3-spaceplus-full.mp4",
-      poster: "/video/posters/spaceplus-pete-d-9x16.jpg",
+      poster: "/video/posters/spaceplus-pete-d-9x16.webp",
     },
   },
 ];

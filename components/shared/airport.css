@@ -1,4 +1,4 @@
-/* "Airport lights": the word is dim (ink-700); a flame runs left to right.
+/* "Airport lights": the word is dim (ink-500); a flame runs left to right.
    Each letter has a bright twin (::after) whose opacity flashes: compositor
    only, no repaint of text-shadow per frame. One lap = 7 letters x 120 ms
    + 600 ms pause = 1.44 s. Every 4th lap the whole word blinks twice. */
@@ -17,7 +17,7 @@
 
 .airport-letter {
   position: relative;
-  color: var(--ink-700);
+  color: var(--ink-500);
 }
 
 .airport-letter::after,
