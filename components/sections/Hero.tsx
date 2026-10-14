@@ -7,6 +7,7 @@ import { Wordmark } from "@/components/shared/Wordmark";
 import { contacts } from "@/data/contacts";
 import { residencies, residenciesTitle } from "@/data/residencies";
 import { asset } from "@/lib/asset";
+import { announceSound, onOtherSound } from "@/lib/soundBus";
 
 const SRC = {
   desk: {
@@ -85,11 +86,26 @@ export function Hero() {
     setSoundOn(false);
   };
 
+  // another video took the sound: back to the silent loop
+  const soundRef = React.useRef(false);
+  React.useEffect(() => {
+    soundRef.current = soundOn;
+  }, [soundOn]);
+  React.useEffect(
+    () =>
+      onOtherSound("hero", () => {
+        if (soundRef.current) backToLoop();
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [media.loop],
+  );
+
   // "Sound on" turns the same video element into the full cut with sound.
   const toggleSound = () => {
     const v = videoRef.current;
     if (!v) return;
     if (!soundOn) {
+      announceSound("hero");
       v.src = asset(media.full);
       v.loop = false;
       v.muted = false;

@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 // Strips per tile. Each is a few degrees of arc, too little to read as a
 // facet; fewer starts to show corners along the top and bottom edges. A
 // tight curve wraps a tile round a wide arc, so it needs this many.
-const SLICES = 16;
+const SLICES = 24;
 
 // Camera distance from the screen, as a multiple of the cylinder's radius.
 // Just past the axis, so the ends come right up to the lens and swell; much
@@ -82,7 +82,8 @@ function measure(
     columns,
     sweep,
     unit: round(unit),
-    limit: round(Math.min(sweep, limit)),
+    // 12% margin: the tile is only hidden once it is clearly off screen
+    limit: round(Math.min(sweep, limit * 1.12)),
   };
 }
 
@@ -177,7 +178,12 @@ export function TiltedGridHero({
   // Fetch every image up front. A tile picks up its next one just before
   // it comes back into view, too late to start loading it then.
   React.useEffect(() => {
-    for (const { src } of images) new Image().src = src;
+    for (const { src } of images) {
+      const im = new Image();
+      im.decoding = "sync";
+      im.src = src;
+      void im.decode?.().catch(() => undefined);
+    }
   }, [images]);
 
   const { columns, sweep, unit, limit } =
@@ -254,6 +260,8 @@ export function TiltedGridHero({
                 width: u(aspectRatio),
                 height: u(1),
                 transformStyle: "preserve-3d",
+                willChange: "transform",
+                backfaceVisibility: "hidden",
                 // Tile t starts t tiles along the loop.
                 animation: `${orbit} ${duration}s linear ${-t * speed}s infinite`,
               }}
@@ -270,11 +278,12 @@ export function TiltedGridHero({
                 <div
                   key={k}
                   className={cn(
-                    "absolute top-0 overflow-hidden bg-ink-800",
+                    "absolute top-0 overflow-hidden bg-ink-950",
                     k === 0 && "rounded-l-lg",
                     k === SLICES - 1 && "rounded-r-lg",
                   )}
                   style={{
+                    backfaceVisibility: "hidden",
                     // Every strip starts at the tile's centre and is turned
                     // round the axis to its own place on the arc.
                     left: u((aspectRatio - share) / 2),

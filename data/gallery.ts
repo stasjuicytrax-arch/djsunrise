@@ -1,20 +1,15 @@
-// Placeholders. Replace files in public/gallery/ or edit this list when live photos arrive.
+// Live photos of the shows (3:2, public/gallery). Replace files or edit this list to change the ribbon.
 export type GalleryImage = { src: string; alt: string; w: number; h: number };
 
-export const galleryTitle = "live";
-export const galleryLead = "photos from the latest shows are on the way";
+export const galleryTitle = "on stage";
+export const galleryCaption = "festivals · clubs";
 
 export const gallery: GalleryImage[] = [
-  { src: "/gallery/placeholder-01-black.jpg", alt: "SUNRISE logo on black", w: 1200, h: 1500 },
-  { src: "/gallery/placeholder-02-sunrise.jpg", alt: "SUNRISE logo on sunrise gradient", w: 1600, h: 1067 },
-  { src: "/gallery/placeholder-03-white.jpg", alt: "SUNRISE logo on light", w: 1200, h: 1500 },
-  { src: "/gallery/placeholder-04-black.jpg", alt: "SUNRISE logo on black", w: 1200, h: 1200 },
-  { src: "/gallery/placeholder-05-sunrise.jpg", alt: "SUNRISE logo on sunrise gradient", w: 1600, h: 1067 },
-  { src: "/gallery/placeholder-06-white.jpg", alt: "SUNRISE logo on light", w: 1200, h: 1500 },
-  { src: "/gallery/placeholder-07-black.jpg", alt: "SUNRISE logo on black", w: 1200, h: 1500 },
-  { src: "/gallery/placeholder-08-sunrise.jpg", alt: "SUNRISE logo on sunrise gradient", w: 1600, h: 1067 },
-  { src: "/gallery/placeholder-09-white.jpg", alt: "SUNRISE logo on light", w: 1200, h: 1200 },
-  { src: "/gallery/placeholder-10-black.jpg", alt: "SUNRISE logo on black", w: 1200, h: 1500 },
-  { src: "/gallery/placeholder-11-sunrise.jpg", alt: "SUNRISE logo on sunrise gradient", w: 1600, h: 1067 },
-  { src: "/gallery/placeholder-12-white.jpg", alt: "SUNRISE logo on light", w: 1200, h: 1500 },
+  { src: "/gallery/show-01-club.jpg", alt: "SUNRISE playing a club night", w: 2000, h: 1333 },
+  { src: "/gallery/show-02-club.jpg", alt: "SUNRISE at the booth in a club", w: 2000, h: 1333 },
+  { src: "/gallery/show-03-festival.jpg", alt: "SUNRISE on a festival stage", w: 2000, h: 1333 },
+  { src: "/gallery/show-04-festival.jpg", alt: "Festival crowd in front of the main stage", w: 2000, h: 1333 },
+  { src: "/gallery/show-05-festival.jpg", alt: "SUNRISE performing at a festival", w: 2000, h: 1334 },
+  { src: "/gallery/show-06-festival.jpg", alt: "Festival stage lights", w: 2000, h: 1334 },
+  { src: "/gallery/show-07-festival.jpg", alt: "SUNRISE at a festival, night", w: 2000, h: 1334 },
 ];

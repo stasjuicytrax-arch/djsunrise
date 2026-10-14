@@ -7,6 +7,7 @@ import { Together } from "@/components/sections/Together";
 import { Progress } from "@/components/sections/Progress";
 import { Venues } from "@/components/sections/Venues";
 import { Gallery } from "@/components/sections/Gallery";
+import { PostersWall } from "@/components/sections/PostersWall";
 import { Tour } from "@/components/sections/Tour";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/sections/Footer";
@@ -24,6 +25,7 @@ export default function Home() {
         <Progress />
         <Venues />
         <Gallery />
+        <PostersWall />
         <Tour />
         <Contact />
       </main>
