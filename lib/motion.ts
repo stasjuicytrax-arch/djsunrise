@@ -33,4 +33,12 @@ export const setLenis = (l: Lenis | null) => {
 };
 export const getLenis = () => lenis;
 
+let refreshTimer = 0;
+/** Call after a layout change that moves triggers (folder open, filter). Debounced, never automatic. */
+export function refreshScroll(delay = 120) {
+  if (typeof window === "undefined") return;
+  window.clearTimeout(refreshTimer);
+  refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), delay);
+}
+
 export { gsap, ScrollTrigger };

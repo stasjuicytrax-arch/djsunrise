@@ -41,22 +41,17 @@ export function SmoothScroll() {
     };
     document.addEventListener("click", onClick);
 
-    // layout shifts (lazy images, video, folders, filters) move the triggers: refresh
-    let t = 0;
-    const refresh = () => {
-      window.clearTimeout(t);
-      t = window.setTimeout(() => ScrollTrigger.refresh(), 150);
-    };
-    const ro = new ResizeObserver(refresh);
-    ro.observe(document.body);
-    window.addEventListener("load", refresh);
-    void document.fonts?.ready.then(refresh);
+    // ScrollTrigger.refresh() runs exactly twice on its own: once after load and
+    // once after fonts. Layout changes call refreshScroll() by hand. No observers
+    // on the body height (a refresh can change it and loop).
+    const onLoad = () => ScrollTrigger.refresh();
+    if (document.readyState === "complete") onLoad();
+    else window.addEventListener("load", onLoad, { once: true });
+    void document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
     return () => {
       document.removeEventListener("click", onClick);
-      ro.disconnect();
-      window.removeEventListener("load", refresh);
-      window.clearTimeout(t);
+      window.removeEventListener("load", onLoad);
       gsap.ticker.remove(tick);
       lenis.destroy();
       setLenis(null);
