@@ -1,5 +1,7 @@
 import { CountUp } from "@/components/shared/CountUp";
 import { TracingLine } from "@/components/shared/TracingLine";
+import { FlapText } from "@/components/shared/FlapText";
+import { Reveal } from "@/components/shared/motion";
 import { tour, tourSummary, tourTitle } from "@/data/tour";
 
 // Schematic route: 11 points left to right on a gentle wave, no map underneath.
@@ -43,7 +45,7 @@ export function Tour() {
           ))}
         </dl>
 
-        <div className="mt-20 hidden md:block">
+        <Reveal kind="wipe" duration={1.6} start="top 85%" className="mt-20 hidden md:block">
           <TracingLine
             viewBox={`0 0 ${X0 * 2 + STEP * (tour.length - 1)} 140`}
             x1={0}
@@ -53,10 +55,10 @@ export function Tour() {
             duration={7}
             title="Tour route in order of dates"
           />
-        </div>
+        </Reveal>
 
         <ol className="m-0 mt-16 list-none p-0">
-          {tour.map((t) => (
+          {tour.map((t, ri) => (
             <li
               key={t.date}
               id={`tour-${t.date.replace(".", "-")}`}
@@ -66,10 +68,10 @@ export function Tour() {
                 className="font-mono text-data text-bone-100 transition-colors duration-[var(--d-fast)] group-hover:text-sun-400"
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
-                {t.date}
+                <FlapText text={t.date} delay={ri * 60} />
               </time>
               <span className="min-w-0 break-words font-display text-h3 font-medium uppercase leading-[1.05] tracking-[-0.025em] text-white md:text-h2">
-                {t.city}
+                <FlapText text={t.city} delay={ri * 60 + 80} />
               </span>
               <span className="hidden text-meta font-medium uppercase tracking-[0.06em] text-fog-400 md:block">
                 {t.country}
