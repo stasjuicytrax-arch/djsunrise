@@ -83,14 +83,14 @@ export default function RootLayout({
           rel="preload"
           as="image"
           href={asset("/video/posters/after-movie-grozzman-9x16.webp")}
-          media="(max-width: 860px)"
+          media="(max-width: 599px)"
           fetchPriority="high"
         />
         <link
           rel="preload"
           as="image"
           href={asset("/video/posters/after-movie-grozzman-16x9.webp")}
-          media="(min-width: 861px)"
+          media="(min-width: 600px)"
           fetchPriority="high"
         />
       </head>

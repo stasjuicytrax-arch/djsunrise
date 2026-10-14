@@ -116,7 +116,7 @@ export type TiltedGridHeroProps = {
   axis?: number;
   /**
    * How far the row has bent round by the frame's edge, in degrees. Higher
-   * curls the ends harder toward the viewer. Clamped to 5–85.
+   * curls the ends harder toward the viewer. Clamped to 5 to 85.
    * @default 80
    */
   curve?: number;

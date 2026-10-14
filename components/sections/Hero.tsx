@@ -35,7 +35,7 @@ export function Hero() {
 
   // Source is chosen on the client so a phone never downloads the 2:1 file.
   React.useEffect(() => {
-    const mq = window.matchMedia("(max-width: 860px)");
+    const mq = window.matchMedia("(max-width: 599px)");
     const sync = () => setMobile(mq.matches);
     sync();
     mq.addEventListener("change", sync);
@@ -131,7 +131,7 @@ export function Hero() {
       <div className="stage relative max-[860px]:h-[72svh] max-[860px]:min-h-[480px] min-[861px]:absolute min-[861px]:inset-0">
         {/* LCP: the right poster is chosen by the browser from the first paint, no JS */}
         <picture>
-          <source media="(max-width: 860px)" srcSet={asset(SRC.mob.poster)} />
+          <source media="(max-width: 599px)" srcSet={asset(SRC.mob.poster)} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={asset(SRC.desk.poster)}
