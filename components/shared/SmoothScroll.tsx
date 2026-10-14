@@ -41,8 +41,22 @@ export function SmoothScroll() {
     };
     document.addEventListener("click", onClick);
 
+    // layout shifts (lazy images, video, folders, filters) move the triggers: refresh
+    let t = 0;
+    const refresh = () => {
+      window.clearTimeout(t);
+      t = window.setTimeout(() => ScrollTrigger.refresh(), 150);
+    };
+    const ro = new ResizeObserver(refresh);
+    ro.observe(document.body);
+    window.addEventListener("load", refresh);
+    void document.fonts?.ready.then(refresh);
+
     return () => {
       document.removeEventListener("click", onClick);
+      ro.disconnect();
+      window.removeEventListener("load", refresh);
+      window.clearTimeout(t);
       gsap.ticker.remove(tick);
       lenis.destroy();
       setLenis(null);

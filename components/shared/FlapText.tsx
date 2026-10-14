@@ -34,7 +34,10 @@ export function FlapText({
         io.disconnect();
         const chars = [...text];
         const t0 = performance.now() + delay;
-        const settle = (i: number) => 240 + i * 55; // ms after the row starts
+        const settle = (i: number) => 240 + Math.min(i, 12) * 55; // ms after the row starts
+        // hold the final width so scrambling glyphs do not shift the row
+        el.style.display = "inline-block";
+        el.style.minWidth = `${el.offsetWidth}px`;
         const tick = (now: number) => {
           const t = now - t0;
           if (t < 0) {
@@ -48,8 +51,11 @@ export function FlapText({
             return SET[Math.floor(Math.random() * SET.length)];
           });
           el.textContent = out.join("");
-          if (done) el.textContent = text;
-          else raf = requestAnimationFrame(tick);
+          if (done) {
+            el.textContent = text;
+            el.style.minWidth = "";
+            el.style.display = "";
+          } else raf = requestAnimationFrame(tick);
         };
         raf = requestAnimationFrame(tick);
       },
@@ -60,6 +66,8 @@ export function FlapText({
       io.disconnect();
       cancelAnimationFrame(raf);
       el.textContent = text;
+      el.style.minWidth = "";
+      el.style.display = "";
     };
   }, [text, delay]);
 

@@ -55,7 +55,7 @@ export function Venues() {
             maxSpread={0.6}
             duration={0.7}
             start="top 85%"
-            className="venues-list m-0 grid list-none grid-cols-1 gap-x-16 p-0 md:grid-cols-2"
+            className="venues-list relative m-0 grid list-none grid-cols-1 gap-x-16 p-0 md:grid-cols-2"
           >
             <AnimatePresence initial={false} mode="popLayout">
               {shown.map((v) => (

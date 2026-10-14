@@ -68,10 +68,10 @@ export function Tour() {
                 className="font-mono text-data text-bone-100 transition-colors duration-[var(--d-fast)] group-hover:text-sun-400"
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
-                <FlapText text={t.date} delay={ri * 60} />
+                <FlapText text={t.date} delay={(ri % 4) * 60} />
               </time>
               <span className="min-w-0 break-words font-display text-h3 font-medium uppercase leading-[1.05] tracking-[-0.025em] text-white md:text-h2">
-                <FlapText text={t.city} delay={ri * 60 + 80} />
+                <FlapText text={t.city} delay={(ri % 4) * 60 + 80} />
               </span>
               <span className="hidden text-meta font-medium uppercase tracking-[0.06em] text-fog-400 md:block">
                 {t.country}

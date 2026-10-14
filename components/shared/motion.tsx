@@ -16,14 +16,15 @@ import {
 type Kind = "mask" | "wipe" | "scale" | "horizon" | "blur" | "letters";
 
 const FROM: Record<Exclude<Kind, "letters">, gsap.TweenVars> = {
-  mask: { clipPath: "inset(100% 0% 0% 0%)" },
+  // side margins keep things that sit outside the box (timeline dots) from being clipped
+  mask: { clipPath: "inset(100% -160px 0% -160px)" },
   wipe: { clipPath: "inset(0% 100% 0% 0%)" },
   scale: { scale: 0.86, opacity: 0, transformOrigin: "50% 50%" },
   horizon: { clipPath: "inset(48% 0% 48% 0%)" },
   blur: { filter: "blur(12px)", opacity: 0 },
 };
 const TO: Record<Exclude<Kind, "letters">, gsap.TweenVars> = {
-  mask: { clipPath: "inset(0% 0% 0% 0%)" },
+  mask: { clipPath: "inset(0% -160px 0% -160px)" },
   wipe: { clipPath: "inset(0% 0% 0% 0%)" },
   scale: { scale: 1, opacity: 1 },
   horizon: { clipPath: "inset(0% 0% 0% 0%)" },

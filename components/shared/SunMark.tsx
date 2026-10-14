@@ -13,6 +13,7 @@ export function SunMark({ className, color = "var(--sun-500)", title }: Props) {
   return (
     <svg
       viewBox={SUN_VIEWBOX}
+      preserveAspectRatio="xMidYMax meet"
       className={cn("block", className)}
       fill={color}
       role={title ? "img" : undefined}
