@@ -36,7 +36,6 @@ export function SunriseHaze({
           backgroundImage: `url(${asset("/brand/grain.png")})`,
           backgroundSize: "128px 128px",
           opacity: 0.06,
-          mixBlendMode: "overlay",
         }}
       />
       <div className="pointer-events-none relative z-10 flex h-full w-full flex-col">

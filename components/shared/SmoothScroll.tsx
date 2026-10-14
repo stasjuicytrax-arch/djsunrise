@@ -16,17 +16,24 @@ import {
  * share one clock. Off with reduced motion (native scroll, native anchors).
  * In-page anchors glide through Lenis.
  */
+/** Lenis is switched off (native scroll) until the perf trace clears it. ScrollTrigger stays. */
+const ENABLE_LENIS = false;
+
 export function SmoothScroll() {
   React.useEffect(() => {
     registerGsap();
     if (prefersReducedMotion()) return;
 
-    const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, smoothWheel: true });
+    const lenis = ENABLE_LENIS
+      ? new Lenis({ lerp: 0.1, wheelMultiplier: 1, smoothWheel: true })
+      : null;
     setLenis(lenis);
-    lenis.on("scroll", ScrollTrigger.update);
-    const tick = (t: number) => lenis.raf(t * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
+    const tick = (t: number) => lenis?.raf(t * 1000);
+    if (lenis) {
+      lenis.on("scroll", ScrollTrigger.update);
+      gsap.ticker.add(tick);
+      gsap.ticker.lagSmoothing(0);
+    }
 
     const onClick = (e: MouseEvent) => {
       const a = (e.target as HTMLElement | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
@@ -36,7 +43,8 @@ export function SmoothScroll() {
       const el = id ? document.getElementById(id) : document.body;
       if (!el) return;
       e.preventDefault();
-      lenis.scrollTo(id ? el : 0, { duration: 1.4, offset: id === "top" || !id ? 0 : -16 });
+      if (lenis) lenis.scrollTo(id ? el : 0, { duration: 1.4, offset: id === "top" || !id ? 0 : -16 });
+      else el.scrollIntoView({ behavior: "auto", block: "start" });
       history.replaceState(null, "", id ? `#${id}` : location.pathname);
     };
     document.addEventListener("click", onClick);
@@ -52,8 +60,10 @@ export function SmoothScroll() {
     return () => {
       document.removeEventListener("click", onClick);
       window.removeEventListener("load", onLoad);
-      gsap.ticker.remove(tick);
-      lenis.destroy();
+      if (lenis) {
+        gsap.ticker.remove(tick);
+        lenis.destroy();
+      }
       setLenis(null);
     };
   }, []);

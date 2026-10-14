@@ -26,7 +26,6 @@
   position: absolute;
   inset: 0;
   color: var(--dawn-400);
-  text-shadow: 0 0 12px var(--sun-400);
   opacity: 0;
 }
 
@@ -57,7 +56,6 @@
   position: absolute;
   inset: 0;
   color: #fff4e8;
-  text-shadow: 0 0 14px var(--sun-400);
   opacity: 0;
   transition: opacity 120ms linear;
 }
