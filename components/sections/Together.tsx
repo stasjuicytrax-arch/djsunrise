@@ -1,6 +1,6 @@
 import { Orbits } from "@/components/shared/Orbits";
 import { artistGroups } from "@/data/artists";
-import { Reveal } from "@/components/shared/motion";
+import { FadeIn, Reveal } from "@/components/shared/motion";
 
 /**
  * Play together (LIST): three orbits of names around the sun.
@@ -28,9 +28,9 @@ export function Together() {
         </h2>
 
         <div className="mt-16">
-          <Reveal kind="scale" duration={1.5} start="top 80%">
+          <FadeIn duration={1.1}>
             <Orbits groups={artistGroups} className="mx-auto max-w-[1100px]" />
-          </Reveal>
+          </FadeIn>
         </div>
 
         {/* orbit legend, desktop: which ring is which */}

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
 import { GiantWordmark } from "./GiantWordmark";
 import { OrbitPulses } from "./OrbitPulses";
+import { OrbitsRoot } from "./OrbitsRoot";
 import "./orbits.css";
 
 export type OrbitGroup = {
@@ -24,8 +24,7 @@ const RINGS = [
 
 const ROW_DUR = [46, 58, 70];
 const RING_RADII = RINGS.map((r) => r.r);
-/** Light pulses along the orbits: off until the perf trace clears them. */
-const PULSES_ENABLED = false;
+
 
 /**
  * Three orbits of names around the SUNRISE sun. Desktop: rings with upright
@@ -34,7 +33,7 @@ const PULSES_ENABLED = false;
  */
 export function Orbits({ groups, className }: Props) {
   return (
-    <div data-pause-offscreen className={cn("orbits", className)}>
+    <OrbitsRoot className={className}>
       {/* accessible list of every name */}
       <div className="sr-only">
         {groups.map((g) => (
@@ -55,7 +54,7 @@ export function Orbits({ groups, className }: Props) {
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{ fontSize: "6.4cqw" }}
         />
-        {PULSES_ENABLED ? <OrbitPulses radii={RING_RADII} /> : null}
+        <OrbitPulses radii={RING_RADII} />
         {groups.slice(0, 3).map((g, gi) => {
           const ring = RINGS[gi];
           const n = g.names.length;
@@ -136,6 +135,6 @@ export function Orbits({ groups, className }: Props) {
           </div>
         ))}
       </div>
-    </div>
+    </OrbitsRoot>
   );
 }

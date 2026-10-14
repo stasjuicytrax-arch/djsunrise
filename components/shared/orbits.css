@@ -1,14 +1,9 @@
 /* Orbits: three rings of names around the sun. All sizes in cqw so the
    stage scales as one object.
-   Performance: ONE animation per ring (3 in total). The ring turns by the
-   registered angle --spin; every label counter-rotates by -1 x --spin read
-   from that variable, so there is no per-name animation. */
-
-@property --spin {
-  syntax: "<angle>";
-  inherits: true;
-  initial-value: 0deg;
-}
+   Compositor-only: each ring turns with a plain transform animation and
+   every label counter-rotates with its own transform animation (same
+   duration, opposite direction). No custom-property animation, no :has(),
+   no filters or shadows on the names. */
 
 .orbits {
   container-type: inline-size;
@@ -27,7 +22,6 @@
   top: 50%;
   width: 0;
   height: 0;
-  transform: rotate(var(--spin));
   will-change: transform;
   animation: orbits-spin var(--dur) linear infinite;
   animation-direction: var(--dir, normal);
@@ -35,10 +29,10 @@
 
 @keyframes orbits-spin {
   from {
-    --spin: 0deg;
+    transform: rotate(0deg);
   }
   to {
-    --spin: 360deg;
+    transform: rotate(360deg);
   }
 }
 
@@ -61,21 +55,31 @@
   transition: opacity var(--d-fast, 240ms) var(--ease-out);
 }
 
-/* upright text: counter-rotate by the ring angle, no animation of its own */
 .orbits-label {
   position: absolute;
   left: 0;
   top: 0;
   white-space: nowrap;
-  transform: translate(-50%, -50%) rotate(calc(var(--spin) * -1));
-  will-change: transform;
+  transform: translate(-50%, -50%);
+  animation: orbits-counter var(--dur) linear infinite;
+  animation-direction: var(--dir, normal);
 }
 
-/* Hover: everything else dims, motion holds */
-.orbits:has(.orbits-name:hover) .orbits-ring {
+@keyframes orbits-counter {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+/* Hover (class set from JS): the rings hold, the other names recede */
+.orbits.is-hovering .orbits-ring,
+.orbits.is-hovering .orbits-label {
   animation-play-state: paused;
 }
-.orbits:has(.orbits-name:hover) .orbits-name:not(:hover) {
+.orbits.is-hovering .orbits-name:not(:hover) {
   opacity: 0.28;
 }
 
@@ -94,6 +98,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .orbits-ring,
+  .orbits-label,
   .orbits-row {
     animation-play-state: paused;
   }

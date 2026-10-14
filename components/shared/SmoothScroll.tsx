@@ -24,7 +24,9 @@ export function SmoothScroll() {
     registerGsap();
     if (prefersReducedMotion()) return;
 
-    const lenis = ENABLE_LENIS
+    const q = new URLSearchParams(window.location.search);
+    const useLenis = (ENABLE_LENIS || q.has("lenis")) && !q.has("nolenis");
+    const lenis = useLenis
       ? new Lenis({ lerp: 0.1, wheelMultiplier: 1, smoothWheel: true })
       : null;
     setLenis(lenis);

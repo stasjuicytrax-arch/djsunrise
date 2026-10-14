@@ -36,6 +36,9 @@ export function OrbitPulses({ radii, wordWidth = 26.4 }: Props) {
 
   React.useEffect(() => {
     const root = rootRef.current;
+    const q = new URLSearchParams(window.location.search);
+    // off by default until the perf trace clears it; ?pulses forces it on, ?nopulses off
+    if (!q.has("pulses") || q.has("nopulses")) return;
     if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let visible = false;

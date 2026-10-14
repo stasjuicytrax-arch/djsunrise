@@ -164,6 +164,40 @@ export function Scrub({
   );
 }
 
+/** One-time opacity fade-in when the element first enters the viewport (no transforms). */
+export function FadeIn({
+  className,
+  children,
+  duration = 0.9,
+}: {
+  className?: string;
+  children?: React.ReactNode;
+  duration?: number;
+}) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  React.useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el || prefersReducedMotion()) return;
+    el.style.opacity = "0";
+    el.style.transition = `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1)`;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        el.style.opacity = "1";
+        io.disconnect();
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [duration]);
+  return (
+    <div ref={ref} className={className}>
+      {children}
+    </div>
+  );
+}
+
 /** Depth parallax: moves slower or faster than the page by +/- `distance` px. */
 export function Parallax({
   distance = 60,
