@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { LayoutGroup } from "motion/react";
 import { CountUp } from "@/components/shared/CountUp";
 import { GlassFolderCard } from "@/components/shared/GlassFolderCard";
 import { LoopVideo } from "@/components/shared/LoopVideo";
@@ -40,6 +41,7 @@ export function Residencies() {
           {residenciesTitle}
         </p>
 
+        <LayoutGroup>
         <div className="flex flex-col gap-6">
           {residencies.map((r, i) => (
             <GlassFolderCard
@@ -100,6 +102,7 @@ export function Residencies() {
             </GlassFolderCard>
           ))}
         </div>
+        </LayoutGroup>
       </div>
     </section>
   );

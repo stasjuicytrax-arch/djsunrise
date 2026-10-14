@@ -62,6 +62,7 @@ export function GlassFolderCard({
 
   return (
     <motion.div
+      layout="position"
       className={cn("[perspective:900px]", className)}
       initial={reduce ? false : { opacity: 0, y: 40, scale: 0.96 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
