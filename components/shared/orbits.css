@@ -49,6 +49,7 @@
 }
 
 .orbits-label {
+  text-shadow: 0 0 10px var(--ink-950), 0 0 4px var(--ink-950);
   position: absolute;
   left: 0;
   top: 0;

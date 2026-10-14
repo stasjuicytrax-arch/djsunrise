@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { GiantWordmark } from "./GiantWordmark";
+import { OrbitPulses } from "./OrbitPulses";
 import "./orbits.css";
 
 export type OrbitGroup = {
@@ -51,6 +52,7 @@ export function Orbits({ groups, className }: Props) {
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{ fontSize: "6.4cqw" }}
         />
+        <OrbitPulses radii={RINGS.map((r) => r.r)} />
         {groups.slice(0, 3).map((g, gi) => {
           const ring = RINGS[gi];
           const n = g.names.length;

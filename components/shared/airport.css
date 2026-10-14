@@ -51,6 +51,14 @@
   }
 }
 
+/* a pulse passing by: the letter flares a touch brighter for a moment */
+.airport-letter.spark::after {
+  animation: none;
+  opacity: 1;
+  color: #fff4e8;
+  text-shadow: 0 0 14px var(--sun-400);
+}
+
 /* the double blink: bright copy with the same per-letter boxes, so it lines up */
 .airport-blink {
   position: absolute;
