@@ -1,6 +1,7 @@
 import { CopyButton } from "@/components/shared/CopyButton";
 import { SunPill } from "@/components/shared/SunPill";
 import { SunriseHaze } from "@/components/shared/SunriseHaze";
+import { SunsetSun } from "@/components/shared/SunsetSun";
 import { contacts } from "@/data/contacts";
 import { asset } from "@/lib/asset";
 
@@ -35,6 +36,10 @@ export function Contact() {
           className="pointer-events-none absolute inset-x-0 top-0 h-[35%]"
           style={{ background: "linear-gradient(180deg, var(--ink-950) 0%, transparent 100%)" }}
         />
+
+        {/* the sunset: the sun sinks behind the horizon line while you scroll here */}
+        <SunsetSun className="absolute bottom-0 left-[46%] hidden h-[26vh] w-[clamp(220px,28vw,420px)] -translate-x-1/2 md:block" />
+        <SunsetSun className="absolute bottom-0 right-4 h-[84px] w-[168px] md:hidden" />
 
         {/* portrait, bottom right, standing on the horizon */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
