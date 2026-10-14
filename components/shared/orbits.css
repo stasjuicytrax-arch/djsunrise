@@ -5,12 +5,6 @@
   container-type: inline-size;
 }
 
-/* hover on the orbits: the flame in the word runs faster */
-.orbits:hover {
-  --airport-step: 0.06s;
-  --airport-lap: 0.72s;
-}
-
 .orbits-stage {
   position: relative;
   width: 100%;

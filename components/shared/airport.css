@@ -1,9 +1,10 @@
-/* "Airport lights": the word is dim; a flame runs left to right, each letter
-   flashes dawn-400 with a soft glow and fades. One lap = letters x step + a
-   600 ms pause. Every ~4th lap the whole word blinks twice. */
+/* "Airport lights": the word is dim (ink-700); a flame runs left to right.
+   Each letter has a bright twin (::after) whose opacity flashes: compositor
+   only, no repaint of text-shadow per frame. One lap = 7 letters x 120 ms
+   + 600 ms pause = 1.44 s. Every 4th lap the whole word blinks twice. */
 .airport {
-  --step: var(--airport-step, 0.12s);
-  --lap: var(--airport-lap, 1.44s); /* 7 letters x 120 ms + 600 ms pause */
+  --step: 0.12s;
+  --lap: 1.44s;
   position: relative;
   display: inline-flex;
   white-space: nowrap;
@@ -15,42 +16,54 @@
 }
 
 .airport-letter {
+  position: relative;
   color: var(--ink-700);
+}
+
+.airport-letter::after,
+.airport-blink > span {
+  content: attr(data-ch);
+  position: absolute;
+  inset: 0;
+  color: var(--dawn-400);
+  text-shadow: 0 0 12px var(--sun-400);
+  opacity: 0;
+}
+
+.airport-letter::after {
   animation: airport-run var(--lap) linear infinite;
   animation-delay: calc(var(--i) * var(--step));
 }
 
 @keyframes airport-run {
   0% {
-    color: var(--ink-700);
-    text-shadow: none;
+    opacity: 0;
   }
-  3% {
-    color: var(--dawn-400);
-    text-shadow: 0 0 12px var(--sun-400);
+  2% {
+    opacity: 1;
   }
-  9% {
-    color: var(--dawn-400);
-    text-shadow: 0 0 12px var(--sun-400);
+  7% {
+    opacity: 1;
   }
-  16%,
+  12%,
   100% {
-    color: var(--ink-700);
-    text-shadow: none;
+    opacity: 0;
   }
 }
 
-/* the double blink: a bright copy of the word on top, quiet most of the time */
+/* the double blink: bright copy with the same per-letter boxes, so it lines up */
 .airport-blink {
   position: absolute;
   inset: 0;
   display: inline-flex;
-  color: var(--dawn-400);
-  text-shadow: 0 0 12px var(--sun-400);
-  opacity: 0;
   pointer-events: none;
   animation: airport-blink calc(var(--lap) * 4) linear infinite;
   animation-delay: calc(var(--lap) * 3);
+  opacity: 0;
+}
+.airport-blink > span {
+  position: relative;
+  opacity: 1;
 }
 
 @keyframes airport-blink {
@@ -58,19 +71,19 @@
   70% {
     opacity: 0;
   }
-  72%,
-  76% {
+  70.5%,
+  75% {
     opacity: 1;
   }
-  79%,
-  83% {
+  75.5%,
+  80% {
     opacity: 0;
   }
-  85%,
-  89% {
+  80.5%,
+  85% {
     opacity: 1;
   }
-  92%,
+  85.5%,
   100% {
     opacity: 0;
   }
@@ -78,8 +91,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   .airport-letter {
-    animation: none;
     color: var(--dawn-400);
+  }
+  .airport-letter::after {
+    animation: none;
+    opacity: 0;
   }
   .airport-blink {
     display: none;

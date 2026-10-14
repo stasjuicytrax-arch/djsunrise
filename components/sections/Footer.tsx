@@ -23,7 +23,7 @@ export function Footer() {
           <ul className="m-0 flex list-none flex-wrap gap-x-5 gap-y-2 p-0">
             {NAV_LINKS.map((l) => (
               <li key={l.id}>
-                <a href={`#${l.id}`} className="text-bone-100">
+                <a href={`#${l.id}`} className="inline-block py-2 text-bone-100">
                   {l.label}
                 </a>
               </li>
@@ -33,12 +33,12 @@ export function Footer() {
 
         <ul className="m-0 flex list-none flex-col gap-2 p-0">
           <li>
-            <a href={contacts.bookings.href} className="font-mono text-data text-bone-100">
+            <a href={contacts.bookings.href} className="inline-block py-1 font-mono text-data text-bone-100">
               {contacts.bookings.display}
             </a>
           </li>
           <li>
-            <a href={contacts.email.href} className="break-all font-mono text-data text-bone-100">
+            <a href={contacts.email.href} className="inline-block break-all py-1 font-mono text-data text-bone-100">
               {contacts.email.display}
             </a>
           </li>
@@ -51,12 +51,12 @@ export function Footer() {
 
         <ul className="m-0 flex list-none flex-col gap-2 p-0">
           <li>
-            <a href={asset("/PromoKit-SunRise.pdf")} download className="text-bone-100">
+            <a href={asset("/PromoKit-SunRise.pdf")} download className="inline-block py-2 text-bone-100">
               Download PDF press kit
             </a>
           </li>
           <li>
-            <a href="#top" className="text-bone-100">
+            <a href="#top" className="inline-block py-2 text-bone-100">
               Back to top
             </a>
           </li>
